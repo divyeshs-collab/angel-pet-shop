@@ -1,42 +1,50 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
   --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  --color-primary: #2563eb; /* Vibrant royal blue */
-  --color-primary-dark: #1d4ed8;
-  --color-primary-deep: #1e3a8a;
-  --color-amber-accent: #f59e0b; /* Warm sunny amber */
-  --color-amber-dark: #d97706;
+  
+  /* PetiGo Vibrant Reference Palette */
+  --primary-blue: #0284C7;
+  --primary-blue-hover: #0369A1;
+  --primary-blue-light: #E0F2FE;
+  
+  --accent-amber: #F59E0B;
+  --accent-amber-hover: #D97706;
+  --accent-amber-light: #FEF3C7;
+  
+  --accent-purple: #6366F1;
+  --accent-purple-hover: #4F46E5;
+  --accent-purple-light: #EEF2FF;
+  
   --color-whatsapp: #25D366;
-  --color-whatsapp-dark: #128C7E;
-  --bg-slate-light: #F8FAFC;
+  --color-whatsapp-hover: #20BA59;
+  
+  --bg-page: #F8FAFC;
   --bg-card: #FFFFFF;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
   font-family: var(--font-body);
-  background-color: var(--bg-slate-light);
-  color: #1e293b;
+  background-color: var(--bg-page);
+  color: #1E293B;
   overflow-x: hidden;
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4, h5, h6, .font-heading {
   font-family: var(--font-heading);
 }
 
-/* Gradient Text for modern headline aesthetic */
-.gradient-text-blue {
-  background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 50%, #0284c7 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Custom subtle scrollbar */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
   background: #f1f5f9;
@@ -47,6 +55,44 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
+}
+
+/* Hero Warm Banner Gradient */
+.hero-petigo-banner {
+  background: linear-gradient(135deg, #FEF08A 0%, #FDE047 30%, #F59E0B 100%);
+}
+
+/* Category Circle Button Hover */
+.category-bubble {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.category-bubble:hover {
+  transform: translateY(-4px);
+}
+.category-bubble:hover .bubble-icon-wrap {
+  transform: scale(1.08);
+}
+.bubble-icon-wrap {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Product Card Hover */
+.pet-card {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+.pet-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+  border-color: #BAE6FD;
+}
+
+/* Promo Banner Hover */
+.promo-box {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.promo-box:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 25px -6px rgba(15, 23, 42, 0.12);
 }
 
 /* WhatsApp Pulse Animation */
@@ -69,90 +115,52 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   animation: pulse-ring 2.4s infinite cubic-bezier(0.45, 0, 0.55, 1);
 }
 
-/* Badge Glow & Shimmer */
-@keyframes badge-shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-.shimmer-badge {
-  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
-  background-size: 200% 100%;
-  animation: badge-shimmer 3s infinite;
-}
-
-/* Gentle float animation */
+/* Soft Floating Animation */
 @keyframes soft-float {
   0%, 100% {
     transform: translateY(0px);
   }
   50% {
-    transform: translateY(-8px);
+    transform: translateY(-5px);
   }
 }
 
-.animate-soft-float {
-  animation: soft-float 5s ease-in-out infinite;
+.animate-float {
+  animation: soft-float 4.5s ease-in-out infinite;
 }
 
-/* Subtle card hover transition */
-.product-card {
-  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.product-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 30px -10px rgba(37, 99, 235, 0.08), 0 10px 15px -8px rgba(0, 0, 0, 0.04);
-}
-
-/* Category card zoom */
-.category-card:hover .cat-img {
-  transform: scale(1.08);
-}
-
-.category-card .cat-img {
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Custom active tabs styling */
-.cat-pill.active {
-  background-color: #2563eb;
-  color: #ffffff;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
-}
-
-/* Smooth modal transition */
+/* Modal Overlay */
 .modal-overlay {
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.25s ease, visibility 0.25s ease;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
 }
-
 .modal-overlay.active {
   opacity: 1;
   visibility: visible;
 }
-
 .modal-content {
-  transform: scale(0.94) translateY(15px);
-  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: scale(0.96) translateY(12px);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
-
 .modal-overlay.active .modal-content {
   transform: scale(1) translateY(0);
 }
 
-/* Cart Drawer slide-in */
+/* Slide-out Cart Drawer */
 .cart-drawer {
   transform: translateX(100%);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-
 .cart-drawer.open {
   transform: translateX(0);
 }
 
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
