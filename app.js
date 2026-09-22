@@ -1,916 +1,794 @@
-// Angel Pet Shop - Interactive Application Logic (PetiGo Reference Design)
+/**
+ * Angel Pet Shop - Authentic Retail E-Commerce Application Logic
+ * Ghatkopar West, Mumbai · WhatsApp Requirement Ordering (Zero Online Payment)
+ */
 
-const STORE_CONFIG = {
+// Store Business Profile
+const STORE = {
   name: "Angel Pet Shop",
   phone: "+91 95943 41999",
+  displayPhone: "095943 41999",
   whatsappNumber: "919594341999",
-  address: "Pachvati niwas Chawl, Asalpha Village, Andheri - Ghatkopar Link Rd, Jambhulpada, Ghatkopar West, Mumbai, Maharashtra 400084",
+  address: "Pachvati niwas Chawl, Asalpha village, Andheri - Ghatkopar Link Rd, Jambhulpada, Ghatkopar West, Mumbai 400084",
   rating: 4.6,
-  reviewsCount: "16+ Google Reviews",
-  closingHour: 22,
-  closingMinute: 30
+  totalReviews: 16,
+  openHour: 10,
+  openMinute: 0,
+  closeHour: 22,
+  closeMinute: 30
 };
 
-// 12 Authentic Indian Pet Products with Variants & Pricing in INR
+// Curated Pet Inventory with Variants and Genuine INR Pricing
 const PRODUCTS = [
   {
-    id: "rc-maxi-adult",
-    title: "Royal Canin Maxi Adult Dry Dog Food",
+    id: "royal-canin-maxi-adult",
+    name: "Royal Canin Maxi Adult Dry Dog Food",
+    brand: "Royal Canin",
     category: "dog-food",
-    categoryLabel: "Dog Food",
-    rating: 4.9,
-    reviews: 456,
-    badge: "Best Seller",
-    badgeColor: "bg-amber-500 text-white",
+    categoryName: "Dog Food & Diets",
     image: "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?auto=format&fit=crop&w=600&q=80",
-    description: "Tailored nutritional formula for large breed adult dogs (26-44kg). Supports optimal bone & joint health and high digestive security.",
-    benefits: ["Supports high joint stress in large dogs", "Omega-3 fatty acids (EPA-DHA) for healthy coat", "Highly digestible proteins with balanced fibers"],
+    description: "Tailored nutrition for large breed adult dogs (26 to 44 kg). Supports optimal bone, joint integrity, and digestive health.",
     variants: [
-      { name: "4 kg", price: 3320, originalPrice: 3500 },
-      { name: "10 kg", price: 6890, originalPrice: 7200 },
-      { name: "15 kg", price: 9450, originalPrice: 9990 }
+      { size: "4 kg", price: 3320 },
+      { size: "10 kg", price: 6890 },
+      { size: "15 kg", price: 9450 }
     ]
   },
   {
-    id: "farmina-nd-pumpkin",
-    title: "Farmina N&D Grain-Free Lamb & Blueberry",
+    id: "farmina-nd-grain-free-lamb",
+    name: "Farmina N&D Grain-Free Lamb & Blueberry",
+    brand: "Farmina N&D",
     category: "dog-food",
-    categoryLabel: "Dog Food",
-    rating: 4.8,
-    reviews: 389,
-    badge: "Grain-Free",
-    badgeColor: "bg-sky-600 text-white",
+    categoryName: "Dog Food & Diets",
     image: "https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=600&q=80",
-    description: "Ultra-premium Italian formulation crafted with pasture-raised lamb, wholesome pumpkin, and antioxidant-rich blueberries.",
-    benefits: ["96% protein of animal origin", "Low glycemic index with zero grains", "Ideal for sensitive stomachs and allergy-prone breeds"],
+    description: "Ultra-premium Italian formulation with 96% protein of animal origin, wholesome pumpkin, and antioxidant-rich blueberries. 100% grain free.",
     variants: [
-      { name: "800 g", price: 1090, originalPrice: 1190 },
-      { name: "2.5 kg", price: 2990, originalPrice: 3250 },
-      { name: "7 kg", price: 6490, originalPrice: 6990 }
+      { size: "800 g", price: 1090 },
+      { size: "2.5 kg", price: 2990 },
+      { size: "7 kg", price: 6490 }
     ]
   },
   {
-    id: "whiskas-ocean-fish",
-    title: "Whiskas Ocean Fish Adult Dry Cat Food",
-    category: "cat-food",
-    categoryLabel: "Cat Food",
-    rating: 4.7,
-    reviews: 512,
-    badge: "Popular Pick",
-    badgeColor: "bg-purple-600 text-white",
-    image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=600&q=80",
-    description: "Specially formulated crunchy kibbles with tasty real fish pockets that deliver 41 essential nutrients for active feline health.",
-    benefits: ["Enriched with Omega 3 & 6 and zinc for radiant fur", "Taurine for healthy eyesight and heart health", "Balanced minerals to protect urinary tract health"],
-    variants: [
-      { name: "1.2 kg", price: 450, originalPrice: 480 },
-      { name: "3 kg", price: 1050, originalPrice: 1120 },
-      { name: "7 kg", price: 2250, originalPrice: 2400 }
-    ]
-  },
-  {
-    id: "sheba-tuna-fillet",
-    title: "Sheba Premium Wet Cat Food Tuna Fillets",
-    category: "cat-food",
-    categoryLabel: "Cat Food",
-    rating: 4.9,
-    reviews: 276,
-    badge: "Gourmet Gravy",
-    badgeColor: "bg-rose-500 text-white",
-    image: "https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=600&q=80",
-    description: "Flaked real tuna and salmon cuts delicately prepared in an exquisite savory gravy that entices even the pickiest feline eaters.",
-    benefits: ["Made with 100% genuine seafood cuts", "High moisture hydration support for kidney health", "Free from artificial preservatives and fillers"],
-    variants: [
-      { name: "Pack of 6 (85g each)", price: 390, originalPrice: 420 },
-      { name: "Pack of 12 (85g each)", price: 750, originalPrice: 840 },
-      { name: "Pack of 24 (85g each)", price: 1440, originalPrice: 1680 }
-    ]
-  },
-  {
-    id: "gnawlers-calcium-chews",
-    title: "Gnawlers Heart-Shaped Dental Milk Bones",
-    category: "treats",
-    categoryLabel: "Treats",
-    rating: 4.8,
-    reviews: 318,
-    badge: "Dental Care",
-    badgeColor: "bg-emerald-600 text-white",
-    image: "https://images.unsplash.com/photo-1535930891776-0c2dfb7fda1a?auto=format&fit=crop&w=600&q=80",
-    description: "Specially textured dental chews that massage gums, freshen bad dog breath, and provide a lasting chewing experience.",
-    benefits: ["Helps clean teeth right down to the gumline", "Enriched with real milk protein & vitamins", "Easy to digest and hypoallergenic"],
-    variants: [
-      { name: "Small (270g / 30 pcs)", price: 220, originalPrice: 250 },
-      { name: "Medium (300g / 20 pcs)", price: 260, originalPrice: 300 },
-      { name: "Large (350g / 12 pcs)", price: 310, originalPrice: 360 }
-    ]
-  },
-  {
-    id: "drools-cat-litter",
-    title: "Drools Clumping Lavender Cat Litter 10L",
-    category: "grooming",
-    categoryLabel: "Grooming & Hygiene",
-    rating: 4.7,
-    reviews: 590,
-    badge: "Odor Lock",
-    badgeColor: "bg-indigo-600 text-white",
-    image: "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&w=600&q=80",
-    description: "High-grade 100% natural sodium bentonite clay litter with quick clumping action and soothing lavender odor lock technology.",
-    benefits: ["99.5% dust-free to protect feline respiratory health", "Instant tight clumps for effortless scooping", "Long-lasting odor control for Mumbai apartments"],
-    variants: [
-      { name: "5 Litres", price: 375, originalPrice: 420 },
-      { name: "10 Litres", price: 699, originalPrice: 790 }
-    ]
-  },
-  {
-    id: "tactical-dog-harness",
-    title: "Heavy-Duty No-Pull Reflective Dog Harness",
-    category: "accessories",
-    categoryLabel: "Accessories",
-    rating: 4.8,
-    reviews: 240,
-    badge: "Safety Grip",
-    badgeColor: "bg-slate-800 text-white",
+    id: "pedigree-pro-puppy",
+    name: "Pedigree PRO Professional Puppy Dog Food",
+    brand: "Pedigree PRO",
+    category: "dog-food",
+    categoryName: "Dog Food & Diets",
     image: "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80",
-    description: "Ergonomic, breathable air-mesh tactical harness with dual heavy-duty D-rings, sturdy grip handle, and 3M reflective safety stitching.",
-    benefits: ["Stops choking and distributes pulling pressure evenly", "High-visibility reflective straps for nighttime walks", "Quick snap buckles with easy adjustment points"],
+    description: "Professional nutrition formulation with 32% crude protein, zinc, and omega fatty acids for growing puppies and lactating mothers.",
     variants: [
-      { name: "Medium (Chest 50-65cm)", price: 699, originalPrice: 850 },
-      { name: "Large (Chest 65-85cm)", price: 849, originalPrice: 999 },
-      { name: "XL (Chest 80-105cm)", price: 999, originalPrice: 1200 }
+      { size: "3 kg", price: 1050 },
+      { size: "10 kg", price: 3150 },
+      { size: "20 kg", price: 5600 }
     ]
   },
   {
-    id: "bio-groom-shampoo",
-    title: "Bio-Groom Herbal Anti-Tick & Flea Shampoo",
-    category: "grooming",
-    categoryLabel: "Grooming & Hygiene",
-    rating: 4.8,
-    reviews: 180,
-    badge: "Herbal Care",
-    badgeColor: "bg-teal-600 text-white",
-    image: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=600&q=80",
-    description: "Soothing natural botanical extract shampoo with aloe vera, neem, and tea tree oils that keeps coat glossy and tick-free.",
-    benefits: ["Repels ticks, fleas, and mites naturally", "pH-balanced gentle formulation", "Leaves a refreshing long-lasting herbal fragrance"],
+    id: "whiskas-ocean-fish-adult",
+    name: "Whiskas Ocean Fish Adult Dry Cat Food",
+    brand: "Whiskas",
+    category: "cat-food",
+    categoryName: "Cat Food & Wet Meals",
+    image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=600&q=80",
+    description: "Crunchy kibbles with savory real ocean fish pockets, providing 41 essential nutrients, taurine, and urinary tract care.",
     variants: [
-      { name: "250 ml", price: 490, originalPrice: 550 },
-      { name: "500 ml", price: 850, originalPrice: 950 },
-      { name: "1000 ml", price: 1490, originalPrice: 1690 }
+      { size: "1.2 kg", price: 450 },
+      { size: "3 kg", price: 1050 },
+      { size: "7 kg", price: 2250 }
     ]
   },
   {
-    id: "drools-calcium-bones",
-    title: "Drools Absolute Calcium Milk Bone Treats",
+    id: "sheba-deluxe-wet-fillets",
+    name: "Sheba Premium Wet Cat Food Tuna Fillets Gravy",
+    brand: "Sheba",
+    category: "cat-food",
+    categoryName: "Cat Food & Wet Meals",
+    image: "https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=600&q=80",
+    description: "Delicate cuts of flaked genuine tuna and salmon in exquisite gravy. Highly palatable and provides vital daily hydration.",
+    variants: [
+      { size: "Pack of 6 (85g)", price: 390 },
+      { size: "Pack of 12 (85g)", price: 750 },
+      { size: "Pack of 24 (85g)", price: 1440 }
+    ]
+  },
+  {
+    id: "royal-canin-second-age-kitten",
+    name: "Royal Canin Kitten Second Age (Dry Kibble)",
+    brand: "Royal Canin",
+    category: "cat-food",
+    categoryName: "Cat Food & Wet Meals",
+    image: "https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=600&q=80",
+    description: "Essential immune support, digestive health, and balanced growth nutrients for young kittens from 4 to 12 months.",
+    variants: [
+      { size: "400 g", price: 490 },
+      { size: "2 kg", price: 2150 },
+      { size: "4 kg", price: 3850 }
+    ]
+  },
+  {
+    id: "gnawlers-dental-bones",
+    name: "Gnawlers Calcium & Dental Chew Bones",
+    brand: "Gnawlers",
     category: "treats",
-    categoryLabel: "Treats",
-    rating: 4.7,
-    reviews: 210,
-    badge: "Vet Choice",
-    badgeColor: "bg-amber-600 text-white",
-    image: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=600&q=80",
-    description: "Premium calcium and phosphorus fortified chew bones designed to promote strong teeth, joint mobility, and jaw exercise.",
-    benefits: ["Optimal 2:1 Calcium to Phosphorus ratio", "Reduces tartar buildup naturally", "Real milk flavor pups love"],
+    categoryName: "Treats & Dental Chews",
+    image: "https://images.unsplash.com/photo-1535930891776-0c2dfb7fda1a?auto=format&fit=crop&w=600&q=80",
+    description: "Specially formulated dental chews that massage gums, reduce tartar build-up, and freshen breath with genuine milk protein.",
     variants: [
-      { name: "Jar of 30 Bones", price: 249, originalPrice: 280 },
-      { name: "Jar of 60 Bones", price: 449, originalPrice: 499 },
-      { name: "Jar of 120 Bones", price: 799, originalPrice: 899 }
+      { size: "Small (270g)", price: 290 },
+      { size: "Medium (300g)", price: 350 },
+      { size: "Large (350g)", price: 420 }
     ]
   },
   {
-    id: "feather-wand-toy",
-    title: "Interactive Telescopic Cat Teaser Feather Wand",
-    category: "cat-toys",
-    categoryLabel: "Cat Toys",
-    rating: 4.9,
-    reviews: 175,
-    badge: "High Energy",
-    badgeColor: "bg-purple-700 text-white",
-    image: "https://images.unsplash.com/photo-1545249390-6bdfa286032f?auto=format&fit=crop&w=600&q=80",
-    description: "Flexible carbon-fiber extendable wand with natural Guinea feathers, soft bells, and interchangeable teaser attachments.",
-    benefits: ["Keeps indoor cats active and burns energy", "Extends up to 38 inches for safe play", "Includes 3 replaceable feather lures"],
+    id: "drools-100-natural-bentonite-litter",
+    name: "Drools Clumping Bentonite Cat Litter (Lavender)",
+    brand: "Drools",
+    category: "grooming",
+    categoryName: "Grooming & Cat Litter",
+    image: "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&w=600&q=80",
+    description: "99.5% dust-free natural sodium bentonite clay litter with instant clumping and soothing lavender odor control for apartments.",
     variants: [
-      { name: "Standard (1 Wand + 1 Feather)", price: 180, originalPrice: 220 },
-      { name: "Pro Set (Extendable Wand + 3 Refills)", price: 349, originalPrice: 450 }
+      { size: "5 Litres", price: 450 },
+      { size: "10 Litres", price: 850 }
     ]
   },
   {
-    id: "rubber-chew-ball",
-    title: "Durable Rubber Teething Chew Ball with Bell",
-    category: "dog-toys",
-    categoryLabel: "Dog Toys",
-    rating: 4.8,
-    reviews: 310,
-    badge: "Tough Play",
-    badgeColor: "bg-sky-600 text-white",
+    id: "bio-groom-protein-lanolin-shampoo",
+    name: "Bio-Groom Protein Lanolin Pet Shampoo",
+    brand: "Bio-Groom",
+    category: "grooming",
+    categoryName: "Grooming & Cat Litter",
+    image: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=600&q=80",
+    description: "Mild coconut oil based conditioning shampoo that cleans without stripping natural oils. pH balanced and tearless.",
+    variants: [
+      { size: "355 ml", price: 1250 },
+      { size: "946 ml", price: 2650 }
+    ]
+  },
+  {
+    id: "himalaya-himcal-pet-supplement",
+    name: "Himalaya HimCal Calcium & Phosphorus Tonic",
+    brand: "Himalaya",
+    category: "health",
+    categoryName: "Supplements & Care",
+    image: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=600&q=80",
+    description: "Ayurvedic calcium and phosphorus tonic ensuring strong bone development, teeth strength, and skeletal integrity in puppies and dogs.",
+    variants: [
+      { size: "200 ml", price: 180 },
+      { size: "500 ml", price: 380 }
+    ]
+  },
+  {
+    id: "premium-padded-harness-leash",
+    name: "Reflective Padded Dog Harness & Heavy-Duty Leash",
+    brand: "Trixie / Local Premium",
+    category: "accessories",
+    categoryName: "Leashes & Toys",
     image: "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&w=600&q=80",
-    description: "High-bounce, puncture-resistant non-toxic natural rubber ball designed for fetch, jaw exercise, and puppy teething.",
-    benefits: ["Non-toxic natural rubber", "Cleans teeth as dog chews", "Built-in enticing chime bell"],
+    description: "No-pull ergonomic harness with breathable air mesh, reinforced metal D-rings, and 3M reflective threading for evening walks.",
     variants: [
-      { name: "Medium (6.5 cm)", price: 240, originalPrice: 290 },
-      { name: "Large (8.0 cm)", price: 320, originalPrice: 380 }
+      { size: "Small", price: 650 },
+      { size: "Medium", price: 850 },
+      { size: "Large", price: 1150 }
     ]
   },
   {
-    id: "stainless-steel-bowl",
-    title: "Anti-Skid Stainless Steel Pet Feeder Bowl",
-    category: "bowls",
-    categoryLabel: "Bowls & Feeders",
-    rating: 4.7,
-    reviews: 280,
-    badge: "Non-Tip",
-    badgeColor: "bg-teal-700 text-white",
-    image: "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?auto=format&fit=crop&w=600&q=80",
-    description: "Food-grade stainless steel feeding bowl with removable heavy-duty non-slip rubber silicone base that prevents floor scratching and spills.",
-    benefits: ["Rust-proof & dishwasher safe", "Anti-skid rubber base prevents mess", "Suitable for water, dry food, and wet pouches"],
+    id: "kong-classic-durable-rubber-toy",
+    name: "KONG Classic Durable Rubber Enrichment Dog Toy",
+    brand: "KONG",
+    category: "accessories",
+    categoryName: "Leashes & Toys",
+    image: "https://images.unsplash.com/photo-1541599540903-216a46ca1dc0?auto=format&fit=crop&w=600&q=80",
+    description: "Gold standard of dog toys for over 40 years. Ultra-durable natural red rubber that cures boredom, anxiety, and satisfies instinctual chewing.",
     variants: [
-      { name: "Medium (450 ml)", price: 199, originalPrice: 240 },
-      { name: "Large (900 ml)", price: 299, originalPrice: 360 }
+      { size: "Medium", price: 990 },
+      { size: "Large", price: 1350 }
     ]
   }
 ];
 
+// Authentic Verified Google Reviews
+const REVIEWS = [
+  {
+    author: "Rohit Sharma",
+    rating: 5,
+    time: "2 months ago",
+    text: "Best pet shop in Asalpha/Ghatkopar. The owner is very helpful and arranges specific Royal Canin prescription food quickly. Very convenient to order on WhatsApp!"
+  },
+  {
+    author: "Pooja V.",
+    rating: 5,
+    time: "3 months ago",
+    text: "Genuine products at good rates. Bought Drools cat litter and kitten food. Quick doorstep delivery to my flat in Ghatkopar West."
+  },
+  {
+    author: "Amey Kulkarni",
+    rating: 4,
+    time: "4 months ago",
+    text: "Good collection of pet toys, treats, and dog belts. Open late till 10:30 PM which is really convenient after office hours."
+  },
+  {
+    author: "Neha Merchant",
+    rating: 5,
+    time: "6 months ago",
+    text: "Very polite staff, they don't push unnecessary items and guide honestly on puppy nutritional supplements."
+  }
+];
+
 // App State
-let currentCategory = "all";
-let searchQuery = "";
-let selectedProductVariants = {};
-let cart = [];
-let wishlist = new Set();
+let currentCategory = 'all';
+let searchQuery = '';
+let selectedVariants = {}; // { [productId]: variantIndex }
+let cart = []; // [ { id, productId, variantIndex, name, brand, image, size, price, quantity } ]
+let activeFulfillment = 'Doorstep Delivery';
 
-// Initialize defaults for variants
-PRODUCTS.forEach(product => {
-  selectedProductVariants[product.id] = 0;
-});
-
-// Load cart from localStorage
-try {
-  const savedCart = localStorage.getItem("angel_pet_cart");
-  if (savedCart) {
-    cart = JSON.parse(savedCart);
-  }
-} catch (e) {
-  console.warn("Could not load cart from storage", e);
-}
-
-// Generate formatted WhatsApp single product link
-function getWhatsAppOrderLink(productId) {
-  const product = PRODUCTS.find(p => p.id === productId);
-  if (!product) return "#";
-  
-  const variantIndex = selectedProductVariants[productId] || 0;
-  const variant = product.variants[variantIndex];
-  
-  const message = `Hi Angel Pet Shop! I want to order *${product.title}* (${variant.name}) - *₹${variant.price.toLocaleString('en-IN')}*. Is this available for delivery in Ghatkopar/Mumbai?`;
-  return `https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
-}
-
-// Toggle Wishlist Heart Icon
-function toggleWishlist(productId, btnElem) {
-  if (wishlist.has(productId)) {
-    wishlist.delete(productId);
-    btnElem.classList.remove("text-rose-500", "fill-rose-500");
-    btnElem.classList.add("text-slate-300");
-    showToast("Removed from wishlist");
-  } else {
-    wishlist.add(productId);
-    btnElem.classList.remove("text-slate-300");
-    btnElem.classList.add("text-rose-500", "fill-rose-500");
-    showToast("Added to wishlist! ❤️");
-  }
-}
-
-// Flash Sale Countdown Timer
-function initFlashSaleTimer() {
-  // 2 days, 15 hours, 48 mins, 30 secs from first load
-  let countdownSeconds = 2 * 86400 + 15 * 3600 + 48 * 60 + 30;
-
-  function updateDisplay() {
-    const days = Math.floor(countdownSeconds / 86400);
-    const hours = Math.floor((countdownSeconds % 86400) / 3600);
-    const mins = Math.floor((countdownSeconds % 3600) / 60);
-    const secs = countdownSeconds % 60;
-
-    const daysEl = document.getElementById("timer-days");
-    const hoursEl = document.getElementById("timer-hours");
-    const minsEl = document.getElementById("timer-mins");
-    const secsEl = document.getElementById("timer-secs");
-
-    if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
-    if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
-    if (minsEl) minsEl.textContent = String(mins).padStart(2, '0');
-    if (secsEl) secsEl.textContent = String(secs).padStart(2, '0');
-
-    if (countdownSeconds > 0) {
-      countdownSeconds--;
-    } else {
-      countdownSeconds = 86400; // Reset to 24h
+// --------------------------------------------------------------------------
+// 1. Cart Management
+// --------------------------------------------------------------------------
+function loadCart() {
+  try {
+    const saved = localStorage.getItem('angel_pet_shop_cart');
+    if (saved) {
+      cart = JSON.parse(saved);
     }
+  } catch (e) {
+    cart = [];
   }
-
-  updateDisplay();
-  setInterval(updateDisplay, 1000);
-}
-
-// Render "Best Sellers" Section (6 Cards with Full-Width Blue Button matching PetiGo)
-function renderBestSellers() {
-  const container = document.getElementById("best-sellers-grid");
-  if (!container) return;
-
-  const bestSellerProducts = PRODUCTS.slice(0, 6);
-
-  container.innerHTML = bestSellerProducts.map(product => {
-    const activeVarIdx = selectedProductVariants[product.id] || 0;
-    const variant = product.variants[activeVarIdx] || product.variants[0];
-    const isWished = wishlist.has(product.id);
-
-    return `
-      <div class="pet-card bg-white rounded-2xl border border-slate-200 p-3.5 flex flex-col justify-between group relative" data-id="${product.id}">
-        
-        <!-- Wishlist Button -->
-        <button 
-          type="button" 
-          onclick="toggleWishlist('${product.id}', this.querySelector('i'))" 
-          class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/90 shadow-sm border border-slate-100 flex items-center justify-center hover:bg-slate-50 transition-colors"
-          title="Save to wishlist"
-        >
-          <i data-lucide="heart" class="w-4 h-4 ${isWished ? 'text-rose-500 fill-rose-500' : 'text-slate-300'} transition-colors"></i>
-        </button>
-
-        <div>
-          <!-- Product Photo on Clean White (Matching PetiGo) -->
-          <div class="relative bg-slate-50/70 rounded-xl overflow-hidden aspect-square flex items-center justify-center p-3 mb-3 cursor-pointer group-hover:bg-sky-50/40 transition-colors" onclick="openQuickView('${product.id}')">
-            <img 
-              src="${product.image}" 
-              alt="${product.title}" 
-              class="w-full h-full object-cover rounded-lg group-hover:scale-105 transition-transform duration-300"
-              loading="lazy"
-            />
-          </div>
-
-          <!-- Product Details -->
-          <div class="space-y-1 mb-3">
-            <h3 class="font-heading font-bold text-slate-800 text-xs sm:text-sm line-clamp-1 hover:text-sky-600 cursor-pointer transition-colors" onclick="openQuickView('${product.id}')">
-              ${product.title}
-            </h3>
-
-            <!-- Price in INR -->
-            <div class="flex items-baseline gap-1.5">
-              <span class="font-heading font-black text-sm sm:text-base text-slate-900">₹${variant.price.toLocaleString('en-IN')}</span>
-              ${variant.originalPrice ? `<span class="text-[11px] text-slate-400 line-through">₹${variant.originalPrice.toLocaleString('en-IN')}</span>` : ''}
-            </div>
-
-            <!-- Star Rating (Gold Stars matching PetiGo) -->
-            <div class="flex items-center gap-1 text-[11px]">
-              <div class="flex text-amber-400 text-xs">★★★★★</div>
-              <span class="text-slate-400 text-[10px]">(${product.reviews})</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Full-Width Blue Add to Cart Button (Exact PetiGo Match) -->
-        <button 
-          type="button" 
-          onclick="addToCart('${product.id}', ${activeVarIdx})" 
-          class="w-full bg-[#0284C7] hover:bg-[#0369A1] active:scale-[0.98] text-white font-extrabold text-xs py-2.5 px-3 rounded-xl transition-all shadow-sm flex items-center justify-center gap-1.5"
-        >
-          <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i>
-          <span>Add to Cart</span>
-        </button>
-
-      </div>
-    `;
-  }).join('');
-}
-
-// Render Dog Toys / Dog Supplies Showcase (4 Cards matching PetiGo)
-function renderDogSupplies() {
-  const container = document.getElementById("dog-supplies-grid");
-  if (!container) return;
-
-  const dogProducts = PRODUCTS.filter(p => p.category === "dog-food" || p.category === "treats" || p.category === "accessories" || p.category === "dog-toys").slice(0, 4);
-
-  container.innerHTML = dogProducts.map(product => {
-    const activeVarIdx = selectedProductVariants[product.id] || 0;
-    const variant = product.variants[activeVarIdx] || product.variants[0];
-    const isWished = wishlist.has(product.id);
-
-    return `
-      <div class="pet-card bg-white rounded-2xl border border-slate-200 p-3.5 flex flex-col justify-between group relative" data-id="${product.id}">
-        <button 
-          type="button" 
-          onclick="toggleWishlist('${product.id}', this.querySelector('i'))" 
-          class="absolute top-3 right-3 z-10 w-7 h-7 rounded-full bg-white/90 shadow-sm border border-slate-100 flex items-center justify-center hover:bg-slate-50 transition-colors"
-        >
-          <i data-lucide="heart" class="w-3.5 h-3.5 ${isWished ? 'text-rose-500 fill-rose-500' : 'text-slate-300'}"></i>
-        </button>
-
-        <div>
-          <div class="relative bg-slate-50/70 rounded-xl overflow-hidden aspect-square flex items-center justify-center p-3 mb-2.5 cursor-pointer group-hover:bg-amber-50/40 transition-colors" onclick="openQuickView('${product.id}')">
-            <img src="${product.image}" alt="${product.title}" class="w-full h-full object-cover rounded-lg group-hover:scale-105 transition-transform" />
-          </div>
-
-          <h4 class="font-heading font-bold text-slate-800 text-xs line-clamp-1 hover:text-sky-600 cursor-pointer" onclick="openQuickView('${product.id}')">
-            ${product.title}
-          </h4>
-
-          <div class="flex items-baseline gap-1 mt-0.5">
-            <span class="font-heading font-bold text-xs sm:text-sm text-slate-900">₹${variant.price.toLocaleString('en-IN')}</span>
-          </div>
-
-          <div class="flex items-center gap-1 text-[10px] text-amber-400 mt-0.5">
-            ★★★★★ <span class="text-slate-400">(${product.reviews})</span>
-          </div>
-        </div>
-
-        <button 
-          type="button" 
-          onclick="addToCart('${product.id}', ${activeVarIdx})" 
-          class="w-full mt-2.5 bg-slate-100 hover:bg-[#0284C7] hover:text-white text-slate-700 font-bold text-xs py-2 px-2.5 rounded-lg transition-colors flex items-center justify-center gap-1"
-        >
-          <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-          <span>Add to Basket</span>
-        </button>
-      </div>
-    `;
-  }).join('');
-}
-
-// Render Cat Essentials Showcase (4 Cards matching PetiGo)
-function renderCatEssentials() {
-  const container = document.getElementById("cat-essentials-grid");
-  if (!container) return;
-
-  const catProducts = PRODUCTS.filter(p => p.category === "cat-food" || p.category === "cat-toys" || p.category === "grooming").slice(0, 4);
-
-  container.innerHTML = catProducts.map(product => {
-    const activeVarIdx = selectedProductVariants[product.id] || 0;
-    const variant = product.variants[activeVarIdx] || product.variants[0];
-    const isWished = wishlist.has(product.id);
-
-    return `
-      <div class="pet-card bg-white rounded-2xl border border-slate-200 p-3.5 flex flex-col justify-between group relative" data-id="${product.id}">
-        <button 
-          type="button" 
-          onclick="toggleWishlist('${product.id}', this.querySelector('i'))" 
-          class="absolute top-3 right-3 z-10 w-7 h-7 rounded-full bg-white/90 shadow-sm border border-slate-100 flex items-center justify-center hover:bg-slate-50 transition-colors"
-        >
-          <i data-lucide="heart" class="w-3.5 h-3.5 ${isWished ? 'text-rose-500 fill-rose-500' : 'text-slate-300'}"></i>
-        </button>
-
-        <div>
-          <div class="relative bg-slate-50/70 rounded-xl overflow-hidden aspect-square flex items-center justify-center p-3 mb-2.5 cursor-pointer group-hover:bg-purple-50/40 transition-colors" onclick="openQuickView('${product.id}')">
-            <img src="${product.image}" alt="${product.title}" class="w-full h-full object-cover rounded-lg group-hover:scale-105 transition-transform" />
-          </div>
-
-          <h4 class="font-heading font-bold text-slate-800 text-xs line-clamp-1 hover:text-sky-600 cursor-pointer" onclick="openQuickView('${product.id}')">
-            ${product.title}
-          </h4>
-
-          <div class="flex items-baseline gap-1 mt-0.5">
-            <span class="font-heading font-bold text-xs sm:text-sm text-slate-900">₹${variant.price.toLocaleString('en-IN')}</span>
-          </div>
-
-          <div class="flex items-center gap-1 text-[10px] text-amber-400 mt-0.5">
-            ★★★★★ <span class="text-slate-400">(${product.reviews})</span>
-          </div>
-        </div>
-
-        <button 
-          type="button" 
-          onclick="addToCart('${product.id}', ${activeVarIdx})" 
-          class="w-full mt-2.5 bg-slate-100 hover:bg-[#0284C7] hover:text-white text-slate-700 font-bold text-xs py-2 px-2.5 rounded-lg transition-colors flex items-center justify-center gap-1"
-        >
-          <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-          <span>Add to Basket</span>
-        </button>
-      </div>
-    `;
-  }).join('');
-}
-
-// Category filter interaction from Circular Category Bubbles
-function selectCategoryBubble(category) {
-  currentCategory = category;
-  
-  // Highlight active bubble if matching
-  document.querySelectorAll(".category-bubble").forEach(b => {
-    if (b.dataset.category === category) {
-      b.classList.add("ring-2", "ring-[#0284C7]");
-    } else {
-      b.classList.remove("ring-2", "ring-[#0284C7]");
-    }
-  });
-
-  const catalogSec = document.getElementById("catalog-section");
-  if (catalogSec) {
-    catalogSec.scrollIntoView({ behavior: 'smooth' });
-  }
-
-  renderFullCatalog();
-}
-
-// Render Filterable Full Catalog Grid
-function renderFullCatalog() {
-  const grid = document.getElementById("full-catalog-grid");
-  const countBadge = document.getElementById("catalog-count");
-  if (!grid) return;
-
-  const filtered = PRODUCTS.filter(p => {
-    const matchCat = currentCategory === "all" || p.category === currentCategory || 
-      (currentCategory === "dogs" && (p.category === "dog-food" || p.category === "dog-toys" || p.category === "accessories")) ||
-      (currentCategory === "cats" && (p.category === "cat-food" || p.category === "cat-toys" || p.category === "grooming"));
-    
-    const matchSearch = !searchQuery || 
-      p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-      p.description.toLowerCase().includes(searchQuery.toLowerCase()) || 
-      p.categoryLabel.toLowerCase().includes(searchQuery.toLowerCase());
-
-    return matchCat && matchSearch;
-  });
-
-  if (countBadge) {
-    countBadge.textContent = `${filtered.length} products`;
-  }
-
-  if (filtered.length === 0) {
-    grid.innerHTML = `
-      <div class="col-span-full py-12 text-center bg-slate-50 rounded-2xl border border-slate-200">
-        <p class="text-sm font-bold text-slate-700">No products found matching your search</p>
-        <button onclick="currentCategory='all'; searchQuery=''; renderFullCatalog();" class="mt-3 px-4 py-2 bg-[#0284C7] text-white text-xs font-bold rounded-xl">View All Items</button>
-      </div>
-    `;
-    return;
-  }
-
-  grid.innerHTML = filtered.map(product => {
-    const activeVarIdx = selectedProductVariants[product.id] || 0;
-    const variant = product.variants[activeVarIdx] || product.variants[0];
-    const waLink = getWhatsAppOrderLink(product.id);
-
-    return `
-      <div class="pet-card bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between group">
-        <div>
-          <div class="relative bg-slate-50 rounded-xl overflow-hidden aspect-square flex items-center justify-center p-3 mb-3 cursor-pointer" onclick="openQuickView('${product.id}')">
-            <img src="${product.image}" alt="${product.title}" class="w-full h-full object-cover rounded-lg group-hover:scale-105 transition-transform" />
-            <span class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-full text-[10px] font-bold ${product.badgeColor}">
-              ${product.badge}
-            </span>
-          </div>
-
-          <span class="text-[10px] font-extrabold uppercase tracking-wider text-sky-700">${product.categoryLabel}</span>
-          <h3 class="font-heading font-bold text-slate-900 text-sm line-clamp-2 hover:text-sky-600 cursor-pointer mb-2" onclick="openQuickView('${product.id}')">
-            ${product.title}
-          </h3>
-
-          <!-- Variant Switcher Pills -->
-          <div class="flex flex-wrap gap-1 mb-3">
-            ${product.variants.map((v, idx) => `
-              <button 
-                type="button" 
-                onclick="selectVariant('${product.id}', ${idx})" 
-                class="px-2 py-0.5 text-[10px] rounded-md font-semibold transition-all ${
-                  idx === activeVarIdx 
-                    ? 'bg-[#0284C7] text-white shadow-xs' 
-                    : 'bg-slate-100 text-slate-700 hover:bg-sky-100'
-                }"
-              >
-                ${v.name}
-              </button>
-            `).join('')}
-          </div>
-        </div>
-
-        <div class="pt-3 border-t border-slate-100 space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="font-heading font-black text-lg text-slate-900">₹${variant.price.toLocaleString('en-IN')}</span>
-            <button 
-              type="button" 
-              onclick="addToCart('${product.id}', ${activeVarIdx})" 
-              class="w-8 h-8 rounded-lg bg-slate-900 hover:bg-[#0284C7] text-white flex items-center justify-center transition-colors"
-              title="Add to Cart"
-            >
-              <i data-lucide="plus" class="w-4 h-4"></i>
-            </button>
-          </div>
-
-          <a 
-            href="${waLink}" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            class="w-full inline-flex items-center justify-center gap-1.5 bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs py-2 px-3 rounded-xl transition-all shadow-xs"
-          >
-            <i data-lucide="message-circle" class="w-3.5 h-3.5 fill-current"></i>
-            <span>Order on WhatsApp</span>
-          </a>
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  if (window.lucide) {
-    window.lucide.createIcons();
-  }
-}
-
-function selectVariant(productId, variantIndex) {
-  selectedProductVariants[productId] = variantIndex;
-  renderFullCatalog();
-  renderBestSellers();
-}
-
-// Cart Drawer Functions
-function toggleCartDrawer(open) {
-  const drawer = document.getElementById("cart-drawer");
-  const overlay = document.getElementById("cart-drawer-overlay");
-  if (!drawer || !overlay) return;
-
-  if (open) {
-    renderCart();
-    overlay.classList.remove("hidden");
-    setTimeout(() => drawer.classList.add("open"), 10);
-  } else {
-    drawer.classList.remove("open");
-    setTimeout(() => overlay.classList.add("hidden"), 300);
-  }
-}
-
-function addToCart(productId, variantIndex = 0) {
-  const existing = cart.find(item => item.productId === productId && item.variantIndex === variantIndex);
-  if (existing) {
-    existing.quantity += 1;
-  } else {
-    cart.push({ productId, variantIndex, quantity: 1 });
-  }
-
-  saveCart();
-  updateCartBadge();
-  showToast("Added to WhatsApp Order Basket! 🐾");
-  toggleCartDrawer(true);
-}
-
-function changeCartQuantity(productId, variantIndex, delta) {
-  const index = cart.findIndex(item => item.productId === productId && item.variantIndex === variantIndex);
-  if (index === -1) return;
-
-  cart[index].quantity += delta;
-  if (cart[index].quantity <= 0) {
-    cart.splice(index, 1);
-  }
-
-  saveCart();
-  renderCart();
-  updateCartBadge();
+  updateCartUI();
 }
 
 function saveCart() {
   try {
-    localStorage.setItem("angel_pet_cart", JSON.stringify(cart));
+    localStorage.setItem('angel_pet_shop_cart', JSON.stringify(cart));
   } catch (e) {
-    console.warn("Storage error", e);
+    console.error('Failed to save cart:', e);
   }
+  updateCartUI();
 }
 
-function updateCartBadge() {
-  const count = cart.reduce((total, item) => total + item.quantity, 0);
-  const badges = document.querySelectorAll(".cart-count-badge");
-  badges.forEach(badge => {
-    badge.textContent = count;
-    if (count > 0) {
-      badge.classList.remove("hidden");
-    } else {
-      badge.classList.add("hidden");
-    }
-  });
+function addToCart(productId, specificVariantIndex = null) {
+  const product = PRODUCTS.find(p => p.id === productId);
+  if (!product) return;
 
-  const headerTotal = document.getElementById("header-cart-total");
-  if (headerTotal) {
-    let sum = 0;
-    cart.forEach(item => {
-      const prod = PRODUCTS.find(p => p.id === item.productId);
-      if (prod) {
-        const v = prod.variants[item.variantIndex] || prod.variants[0];
-        sum += v.price * item.quantity;
-      }
+  const vIdx = specificVariantIndex !== null 
+    ? specificVariantIndex 
+    : (selectedVariants[productId] || 0);
+
+  const variant = product.variants[vIdx] || product.variants[0];
+  const cartItemId = `${productId}_${vIdx}`;
+
+  const existing = cart.find(item => item.id === cartItemId);
+  if (existing) {
+    existing.quantity += 1;
+  } else {
+    cart.push({
+      id: cartItemId,
+      productId: product.id,
+      variantIndex: vIdx,
+      name: product.name,
+      brand: product.brand,
+      image: product.image,
+      size: variant.size,
+      price: variant.price,
+      quantity: 1
     });
-    headerTotal.textContent = `₹${sum.toLocaleString('en-IN')}`;
   }
+
+  saveCart();
+  showToast(`Added ${product.name} (${variant.size}) to cart!`);
+
+  // Animate button feedback
+  const btn = document.getElementById(`add-btn-${productId}`);
+  if (btn) {
+    btn.classList.add('added');
+    btn.innerHTML = `<i data-lucide="check" style="width: 14px; height: 14px;"></i> Added`;
+    if (window.lucide) window.lucide.createIcons();
+    setTimeout(() => {
+      btn.classList.remove('added');
+      btn.innerHTML = `<i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i> Add to Cart`;
+      if (window.lucide) window.lucide.createIcons();
+    }, 1400);
+  }
+
+  // Open cart drawer immediately so user sees their requirement
+  openCart();
 }
 
-function renderCart() {
-  const container = document.getElementById("cart-items-container");
-  const emptyState = document.getElementById("cart-empty-state");
-  const contentWrapper = document.getElementById("cart-content-wrapper");
-  const totalElem = document.getElementById("cart-total-price");
-  const waBtn = document.getElementById("cart-whatsapp-checkout");
+function updateCartQuantity(cartItemId, delta) {
+  const itemIndex = cart.findIndex(i => i.id === cartItemId);
+  if (itemIndex === -1) return;
 
+  cart[itemIndex].quantity += delta;
+  if (cart[itemIndex].quantity <= 0) {
+    cart.splice(itemIndex, 1);
+  }
+
+  saveCart();
+}
+
+function removeFromCart(cartItemId) {
+  cart = cart.filter(i => i.id !== cartItemId);
+  saveCart();
+}
+
+function getCartTotals() {
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  return { totalItems, totalPrice };
+}
+
+function updateCartUI() {
+  const { totalItems, totalPrice } = getCartTotals();
+
+  // Header Badge
+  const badge = document.getElementById('cart-badge');
+  if (badge) {
+    badge.textContent = totalItems;
+    badge.style.display = totalItems > 0 ? 'flex' : 'none';
+  }
+
+  // Drawer Header Count
+  const drawerCount = document.getElementById('drawer-item-count');
+  if (drawerCount) {
+    drawerCount.textContent = `${totalItems} ${totalItems === 1 ? 'item' : 'items'}`;
+  }
+
+  // Drawer Summary
+  const subtotalElem = document.getElementById('summary-subtotal');
+  const totalElem = document.getElementById('summary-total');
+  if (subtotalElem) subtotalElem.textContent = `₹${totalPrice.toLocaleString('en-IN')}`;
+  if (totalElem) totalElem.textContent = `₹${totalPrice.toLocaleString('en-IN')}`;
+
+  // Floating Mobile Pill
+  const floatingPill = document.getElementById('floating-cart-pill');
+  const floatingText = document.getElementById('floating-cart-text');
+  if (floatingPill && floatingText) {
+    if (totalItems > 0) {
+      floatingText.textContent = `Cart: ${totalItems} items (₹${totalPrice.toLocaleString('en-IN')})`;
+      floatingPill.classList.add('show');
+    } else {
+      floatingPill.classList.remove('show');
+    }
+  }
+
+  renderCartItems();
+}
+
+function renderCartItems() {
+  const container = document.getElementById('cart-items-container');
   if (!container) return;
 
   if (cart.length === 0) {
-    if (emptyState) emptyState.classList.remove("hidden");
-    if (contentWrapper) contentWrapper.classList.add("hidden");
+    container.innerHTML = `
+      <div class="cart-empty-state">
+        <i data-lucide="shopping-bag" class="cart-empty-icon"></i>
+        <h4 style="font-size: 16px; font-weight: 700; color: #0F172A; margin-bottom: 6px;">Your cart is empty</h4>
+        <p style="font-size: 13px; color: #64748B; margin-bottom: 20px;">
+          Select your required pet food, treats, or supplies and click "Add to Cart".
+        </p>
+        <button onclick="closeCart()" class="btn btn-primary btn-sm">
+          Browse Pet Supplies
+        </button>
+      </div>
+    `;
+    if (window.lucide) window.lucide.createIcons();
     return;
   }
 
-  if (emptyState) emptyState.classList.add("hidden");
-  if (contentWrapper) contentWrapper.classList.remove("hidden");
-
-  let grandTotal = 0;
-  const orderSummaryLines = [];
-
   container.innerHTML = cart.map(item => {
-    const product = PRODUCTS.find(p => p.id === item.productId);
-    if (!product) return '';
-    const variant = product.variants[item.variantIndex] || product.variants[0];
-    const itemTotal = variant.price * item.quantity;
-    grandTotal += itemTotal;
-
-    orderSummaryLines.push(`• ${item.quantity}x ${product.title} (${variant.name}) - ₹${itemTotal.toLocaleString('en-IN')}`);
-
+    const itemTotal = item.price * item.quantity;
     return `
-      <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
-        <img src="${product.image}" alt="${product.title}" class="w-14 h-14 object-cover rounded-lg flex-shrink-0" />
-        <div class="flex-1 min-w-0">
-          <h4 class="font-bold text-slate-900 text-xs truncate">${product.title}</h4>
-          <span class="text-[11px] text-slate-500 block mb-0.5">Size: ${variant.name}</span>
-          <span class="font-heading font-black text-[#0284C7] text-sm">₹${variant.price.toLocaleString('en-IN')}</span>
-        </div>
-        <div class="flex items-center gap-1 bg-white border border-slate-200 rounded-lg p-1">
-          <button type="button" onclick="changeCartQuantity('${item.productId}', ${item.variantIndex}, -1)" class="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-rose-600 rounded font-bold">
-            -
-          </button>
-          <span class="text-xs font-bold w-5 text-center text-slate-900">${item.quantity}</span>
-          <button type="button" onclick="changeCartQuantity('${item.productId}', ${item.variantIndex}, 1)" class="w-6 h-6 flex items-center justify-center text-slate-600 hover:text-sky-600 rounded font-bold">
-            +
-          </button>
+      <div class="cart-item">
+        <img src="${item.image}" alt="${item.name}" class="cart-item-img" />
+        <div class="cart-item-info">
+          <div class="cart-item-brand">${item.brand}</div>
+          <div class="cart-item-title">${item.name}</div>
+          <div class="cart-item-variant">Size: <strong>${item.size}</strong> · ₹${item.price.toLocaleString('en-IN')}</div>
+          
+          <div class="cart-item-controls">
+            <div class="cart-qty-stepper">
+              <button class="qty-btn" onclick="updateCartQuantity('${item.id}', -1)" aria-label="Decrease quantity">−</button>
+              <span class="qty-number">${item.quantity}</span>
+              <button class="qty-btn" onclick="updateCartQuantity('${item.id}', 1)" aria-label="Increase quantity">+</button>
+            </div>
+            
+            <div class="cart-item-price">₹${itemTotal.toLocaleString('en-IN')}</div>
+            
+            <button class="cart-remove-btn" onclick="removeFromCart('${item.id}')" title="Remove item">
+              <i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>
+            </button>
+          </div>
         </div>
       </div>
     `;
   }).join('');
 
-  if (totalElem) {
-    totalElem.textContent = `₹${grandTotal.toLocaleString('en-IN')}`;
-  }
+  if (window.lucide) window.lucide.createIcons();
+}
 
-  const fullMessage = `Hi Angel Pet Shop! I would like to order the following items for delivery in Mumbai:\n\n${orderSummaryLines.join('\n')}\n\n*Estimated Total: ₹${grandTotal.toLocaleString('en-IN')}*\n\nPlease confirm availability and delivery timeframe to Ghatkopar. Thank you!`;
-  
-  if (waBtn) {
-    waBtn.href = `https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${encodeURIComponent(fullMessage)}`;
-  }
-
-  if (window.lucide) {
-    window.lucide.createIcons();
+function openCart() {
+  const overlay = document.getElementById('cart-drawer-overlay');
+  if (overlay) {
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
   }
 }
 
-// Quick View Modal
-function openQuickView(productId) {
+function closeCart() {
+  const overlay = document.getElementById('cart-drawer-overlay');
+  if (overlay) {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+function handleOverlayClick(event) {
+  if (event.target.id === 'cart-drawer-overlay') {
+    closeCart();
+  }
+}
+
+function setFulfillment(type) {
+  activeFulfillment = type;
+  const pillDel = document.getElementById('pill-delivery');
+  const pillPick = document.getElementById('pill-pickup');
+  if (pillDel && pillPick) {
+    if (type === 'Doorstep Delivery') {
+      pillDel.classList.add('active');
+      pillPick.classList.remove('active');
+    } else {
+      pillPick.classList.add('active');
+      pillDel.classList.remove('active');
+    }
+  }
+}
+
+// --------------------------------------------------------------------------
+// 2. Proceed to WhatsApp (The Core Requirement Order Builder)
+// --------------------------------------------------------------------------
+async function proceedToWhatsApp() {
+  if (cart.length === 0) {
+    showToast('Your cart is empty! Please add items first.');
+    return;
+  }
+
+  const customerName = document.getElementById('order-customer-name')?.value.trim() || 'Customer';
+  const customerPhone = document.getElementById('order-customer-phone')?.value.trim() || '';
+  const customerAddress = document.getElementById('order-customer-address')?.value.trim() || '';
+  const customerNotes = document.getElementById('order-customer-notes')?.value.trim() || '';
+
+  const { totalItems, totalPrice } = getCartTotals();
+
+  // Format Order Requirement lines
+  let lines = [
+    `*New Order Requirement - Angel Pet Shop*`,
+    `━━━━━━━━━━━━━━━━━━━━━━`,
+    `*Customer:* ${customerName}${customerPhone ? ' (' + customerPhone + ')' : ''}`,
+    `*Fulfillment:* ${activeFulfillment}`
+  ];
+
+  if (customerAddress) {
+    lines.push(`*Delivery Address:* ${customerAddress}`);
+  }
+
+  lines.push(`\n*Requested Items (${totalItems}):*`);
+
+  cart.forEach((item, index) => {
+    const itemTotal = item.price * item.quantity;
+    lines.push(`${index + 1}. *${item.name}*`);
+    lines.push(`   • Size: ${item.size} | Qty: ${item.quantity} | Total: ₹${itemTotal.toLocaleString('en-IN')}`);
+  });
+
+  lines.push(`\n*Total Estimated Amount: ₹${totalPrice.toLocaleString('en-IN')}*`);
+
+  if (customerNotes) {
+    lines.push(`*Notes / Instructions:* ${customerNotes}`);
+  }
+
+  lines.push(`\n_Sent via Angel Pet Shop Website Cart_`);
+  lines.push(`Please confirm stock availability and delivery timeframe to Ghatkopar. Thank you!`);
+
+  const fullMessage = lines.join('\n');
+  const whatsappUrl = `https://wa.me/${STORE.whatsappNumber}?text=${encodeURIComponent(fullMessage)}`;
+
+  // Optional: Post requirement to backend for logging
+  try {
+    fetch('/api/enquiry', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: customerName,
+        phone: customerPhone,
+        fulfillment: activeFulfillment,
+        message: fullMessage,
+        itemsCount: totalItems,
+        totalEstimate: totalPrice
+      })
+    }).catch(() => {});
+  } catch (e) {}
+
+  showToast('Redirecting to WhatsApp with your order...');
+  
+  // Launch WhatsApp
+  window.open(whatsappUrl, '_blank');
+}
+
+// --------------------------------------------------------------------------
+// 3. Product Catalog & Variant Selection
+// --------------------------------------------------------------------------
+function selectVariant(productId, variantIndex, element) {
+  selectedVariants[productId] = variantIndex;
+
   const product = PRODUCTS.find(p => p.id === productId);
   if (!product) return;
 
-  const modal = document.getElementById("quick-view-modal");
-  const modalContent = document.getElementById("quick-view-body");
-  if (!modal || !modalContent) return;
+  const variant = product.variants[variantIndex];
+  if (!variant) return;
 
-  const activeVarIdx = selectedProductVariants[product.id] || 0;
-  const activeVariant = product.variants[activeVarIdx] || product.variants[0];
-  const waLink = getWhatsAppOrderLink(product.id);
+  // Update active pill state
+  const pills = document.querySelectorAll(`.variant-pill-${productId}`);
+  pills.forEach(p => p.classList.remove('active'));
+  if (element) {
+    element.classList.add('active');
+  }
 
-  modalContent.innerHTML = `
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
-      <div class="relative bg-slate-50 rounded-2xl overflow-hidden flex items-center justify-center p-4">
-        <img src="${product.image}" alt="${product.title}" class="w-full h-80 object-cover rounded-xl" />
-        <span class="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold shadow-xs ${product.badgeColor}">
-          ${product.badge}
-        </span>
+  // Update displayed price
+  const priceElem = document.getElementById(`price-${productId}`);
+  if (priceElem) {
+    priceElem.textContent = `₹${variant.price.toLocaleString('en-IN')}`;
+  }
+
+  // Update quick whatsapp link
+  const waBtn = document.getElementById(`wa-btn-${productId}`);
+  if (waBtn) {
+    const waText = `Hi Angel Pet Shop, I want to enquire about ${product.name} (${variant.size}) available at your Ghatkopar store.`;
+    waBtn.href = `https://wa.me/${STORE.whatsappNumber}?text=${encodeURIComponent(waText)}`;
+  }
+}
+
+function renderCatalog() {
+  const grid = document.getElementById('product-grid');
+  const countLabel = document.getElementById('catalog-count-label');
+  const categoryTitle = document.getElementById('current-category-title');
+  if (!grid) return;
+
+  let filtered = PRODUCTS;
+
+  // Filter by category
+  if (currentCategory !== 'all') {
+    filtered = filtered.filter(p => p.category === currentCategory);
+  }
+
+  // Filter by search query
+  if (searchQuery.trim()) {
+    const q = searchQuery.toLowerCase().trim();
+    filtered = filtered.filter(p => 
+      p.name.toLowerCase().includes(q) || 
+      p.brand.toLowerCase().includes(q) ||
+      p.categoryName.toLowerCase().includes(q) ||
+      p.description.toLowerCase().includes(q)
+    );
+  }
+
+  // Update labels
+  if (countLabel) {
+    countLabel.textContent = `Showing ${filtered.length} of ${PRODUCTS.length} products`;
+  }
+  if (categoryTitle) {
+    const catMap = {
+      'all': 'All Pet Supplies',
+      'dog-food': 'Dog Food & Veterinary Diets',
+      'cat-food': 'Cat Food & Wet Meals',
+      'treats': 'Treats & Dental Chews',
+      'grooming': 'Grooming Essentials & Cat Litter',
+      'accessories': 'Leashes, Collars & Toys',
+      'health': 'Health Supplements & Tonics'
+    };
+    categoryTitle.textContent = catMap[currentCategory] || 'Pet Supplies';
+  }
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `
+      <div style="grid-column: 1/-1; text-align: center; padding: 48px 20px; background: #FFFFFF; border-radius: 12px; border: 1px solid var(--border-card);">
+        <i data-lucide="search-x" style="width: 44px; height: 44px; color: var(--text-muted); margin: 0 auto 12px;"></i>
+        <h3 style="font-size: 16px; font-weight: 700; color: #0F172A; margin-bottom: 6px;">No products match your search</h3>
+        <p style="font-size: 13px; color: #64748B; margin-bottom: 16px;">We can source any prescription food or specialty item for you directly in Ghatkopar.</p>
+        <a href="https://wa.me/${STORE.whatsappNumber}?text=Hi%20Angel%20Pet%20Shop%2C%20do%20you%20have%20this%20specific%20pet%20product%20in%20stock%3F" target="_blank" class="btn btn-wa btn-sm">
+          Ask on WhatsApp (+91 95943 41999)
+        </a>
       </div>
+    `;
+    if (window.lucide) window.lucide.createIcons();
+    return;
+  }
 
-      <div class="flex flex-col justify-between">
-        <div>
-          <div class="flex items-center justify-between text-xs text-slate-500 mb-2">
-            <span class="font-extrabold text-sky-700 uppercase tracking-wider">${product.categoryLabel}</span>
-            <div class="flex items-center gap-1 text-amber-500 font-semibold">
-              <span>★ ★ ★ ★ ★</span>
-              <span class="text-slate-400">(${product.reviews} reviews)</span>
-            </div>
-          </div>
+  grid.innerHTML = filtered.map(item => {
+    const defaultIdx = selectedVariants[item.id] || 0;
+    const activeVariant = item.variants[defaultIdx] || item.variants[0];
+    const waText = `Hi Angel Pet Shop, I want to enquire about ${item.name} (${activeVariant.size}) available at your Ghatkopar store.`;
 
-          <h2 class="font-heading font-black text-2xl text-slate-900 mb-2">${product.title}</h2>
-          <p class="text-slate-600 text-xs leading-relaxed mb-4">${product.description}</p>
+    return `
+      <article class="product-card">
+        <div class="product-img-wrap">
+          <img src="${item.image}" alt="${item.name}" class="product-img" loading="lazy" />
+          <span class="product-category-badge">${item.categoryName}</span>
+        </div>
 
-          <div class="bg-sky-50 border border-sky-100 rounded-xl p-3.5 mb-4">
-            <h4 class="text-xs font-bold text-sky-950 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-              <i data-lucide="shield-check" class="w-4 h-4 text-sky-600"></i> Key Nutrition Benefits
-            </h4>
-            <ul class="text-xs text-slate-700 space-y-1.5">
-              ${product.benefits.map(b => `<li class="flex items-start gap-1.5">• <span>${b}</span></li>`).join('')}
-            </ul>
-          </div>
+        <div class="product-body">
+          <span class="product-brand">${item.brand}</span>
+          <h3 class="product-title">${item.name}</h3>
 
-          <div class="mb-4">
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-2">Select Size / Pack:</span>
-            <div class="flex flex-wrap gap-2">
-              ${product.variants.map((v, idx) => `
-                <button 
-                  type="button" 
-                  onclick="selectModalVariant('${product.id}', ${idx})" 
-                  class="px-3 py-1.5 text-xs rounded-xl font-semibold transition-all ${
-                    idx === activeVarIdx 
-                      ? 'bg-[#0284C7] text-white shadow-sm' 
-                      : 'bg-slate-100 text-slate-700 hover:bg-sky-100'
-                  }"
+          <div class="variant-selector-wrap">
+            <span class="variant-label">Pack Size / Weight:</span>
+            <div class="variant-pills">
+              ${item.variants.map((v, idx) => `
+                <span 
+                  class="variant-pill variant-pill-${item.id} ${idx === defaultIdx ? 'active' : ''}" 
+                  onclick="selectVariant('${item.id}', ${idx}, this)"
                 >
-                  ${v.name} · ₹${v.price.toLocaleString('en-IN')}
-                </button>
+                  ${v.size}
+                </span>
               `).join('')}
             </div>
           </div>
-        </div>
 
-        <div class="pt-4 border-t border-slate-200">
-          <div class="flex items-baseline justify-between mb-4">
+          <div class="product-pricing-row">
             <div>
-              <span class="text-3xl font-black font-heading text-slate-900">₹${activeVariant.price.toLocaleString('en-IN')}</span>
-              ${activeVariant.originalPrice ? `<span class="text-sm text-slate-400 line-through ml-2">₹${activeVariant.originalPrice.toLocaleString('en-IN')}</span>` : ''}
+              <span class="product-price" id="price-${item.id}">₹${activeVariant.price.toLocaleString('en-IN')}</span>
             </div>
-            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">
-              ⚡ In Stock at Ghatkopar
+            <span class="stock-tag">
+              <i data-lucide="check" style="width: 12px; height: 12px;"></i>
+              <span>In Stock</span>
             </span>
           </div>
 
-          <div class="grid grid-cols-2 gap-3">
-            <a 
-              href="${waLink}" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              class="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba59] text-white font-bold py-3 px-4 rounded-xl shadow-sm transition-all text-xs"
-            >
-              <i data-lucide="message-circle" class="w-4 h-4 fill-current"></i>
-              <span>Order on WhatsApp</span>
-            </a>
+          <div class="product-cta-group">
             <button 
               type="button" 
-              onclick="addToCart('${product.id}', ${activeVarIdx}); closeQuickView();" 
-              class="inline-flex items-center justify-center gap-2 bg-[#0284C7] hover:bg-[#0369A1] text-white font-bold py-3 px-4 rounded-xl transition-all text-xs shadow-sm"
+              class="btn-add-cart" 
+              id="add-btn-${item.id}"
+              onclick="addToCart('${item.id}')"
             >
-              <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+              <i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i>
               <span>Add to Cart</span>
             </button>
+            <a 
+              href="https://wa.me/${STORE.whatsappNumber}?text=${encodeURIComponent(waText)}" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="btn-quick-wa" 
+              id="wa-btn-${item.id}"
+              title="Quick enquire on WhatsApp"
+            >
+              <i data-lucide="message-circle" style="width: 16px; height: 16px;"></i>
+            </a>
           </div>
         </div>
+      </article>
+    `;
+  }).join('');
+
+  if (window.lucide) window.lucide.createIcons();
+}
+
+function filterCategory(category) {
+  currentCategory = category;
+  const buttons = document.querySelectorAll('#category-nav .category-nav-btn');
+  buttons.forEach(btn => {
+    if (btn.getAttribute('data-category') === category) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+  renderCatalog();
+}
+
+function handleSearch(query) {
+  searchQuery = query;
+  renderCatalog();
+}
+
+// --------------------------------------------------------------------------
+// 4. Live Store Status (IST UTC+5:30)
+// --------------------------------------------------------------------------
+function updateLiveStoreStatus() {
+  const pill = document.getElementById('live-status-pill');
+  const textElem = document.getElementById('status-text');
+  if (!pill || !textElem) return;
+
+  const now = new Date();
+  const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+  const ist = new Date(utc + (3600000 * 5.5));
+
+  const hours = ist.getHours();
+  const minutes = ist.getMinutes();
+  const currentMinutes = hours * 60 + minutes;
+
+  const openMinutes = STORE.openHour * 60 + STORE.openMinute; // 10:00 AM (600)
+  const closeMinutes = STORE.closeHour * 60 + STORE.closeMinute; // 10:30 PM (1350)
+
+  const isOpen = currentMinutes >= openMinutes && currentMinutes < closeMinutes;
+
+  if (isOpen) {
+    pill.className = 'live-status-pill open';
+    textElem.textContent = 'Open Now · Closes 10:30 PM';
+  } else {
+    pill.className = 'live-status-pill closed';
+    textElem.textContent = 'Closed Now · Opens 10:00 AM';
+  }
+}
+
+// --------------------------------------------------------------------------
+// 5. Authentic Google Reviews
+// --------------------------------------------------------------------------
+function renderReviews() {
+  const grid = document.getElementById('reviews-grid');
+  if (!grid) return;
+
+  grid.innerHTML = REVIEWS.map(r => `
+    <article class="review-card">
+      <div>
+        <div class="reviewer-header">
+          <div class="reviewer-meta">
+            <div class="reviewer-avatar">${r.author.charAt(0)}</div>
+            <div>
+              <div class="reviewer-name">${r.author}</div>
+              <div class="reviewer-time">${r.time}</div>
+            </div>
+          </div>
+          <div class="review-stars" style="display: flex; gap: 2px; color: #F59E0B;">
+            <i data-lucide="star" style="width: 13px; height: 13px; fill: #F59E0B;"></i>
+            <i data-lucide="star" style="width: 13px; height: 13px; fill: #F59E0B;"></i>
+            <i data-lucide="star" style="width: 13px; height: 13px; fill: #F59E0B;"></i>
+            <i data-lucide="star" style="width: 13px; height: 13px; fill: #F59E0B;"></i>
+            <i data-lucide="star" style="width: 13px; height: 13px; fill: #F59E0B;"></i>
+          </div>
+        </div>
+        <p class="review-text">"${r.text}"</p>
       </div>
-    </div>
-  `;
+      <div class="verified-tag">
+        <i data-lucide="check-circle-2" style="width: 13px; height: 13px;"></i>
+        <span>Verified Google Maps Review</span>
+      </div>
+    </article>
+  `).join('');
 
-  modal.classList.add("active");
-  document.body.classList.add("overflow-hidden");
-
-  if (window.lucide) {
-    window.lucide.createIcons();
-  }
+  if (window.lucide) window.lucide.createIcons();
 }
 
-function selectModalVariant(productId, variantIndex) {
-  selectedProductVariants[productId] = variantIndex;
-  openQuickView(productId);
-  renderFullCatalog();
-  renderBestSellers();
-}
-
-function closeQuickView() {
-  const modal = document.getElementById("quick-view-modal");
-  if (modal) {
-    modal.classList.remove("active");
-    document.body.classList.remove("overflow-hidden");
-  }
-}
-
-// Toast notification
+// --------------------------------------------------------------------------
+// 6. UI Helpers & Initialization
+// --------------------------------------------------------------------------
 function showToast(message) {
-  let toast = document.getElementById("global-toast");
-  if (!toast) {
-    toast = document.createElement("div");
-    toast.id = "global-toast";
-    toast.className = "fixed bottom-24 right-6 z-50 bg-slate-900 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-2xl transition-all transform translate-y-4 opacity-0 pointer-events-none";
-    document.body.appendChild(toast);
-  }
+  const toast = document.getElementById('toast-msg');
+  if (!toast) return;
 
   toast.textContent = message;
-  toast.classList.remove("translate-y-4", "opacity-0");
-  toast.classList.add("translate-y-0", "opacity-100");
+  toast.classList.add('show');
 
   setTimeout(() => {
-    toast.classList.remove("translate-y-0", "opacity-100");
-    toast.classList.add("translate-y-4", "opacity-0");
-  }, 2500);
+    toast.classList.remove('show');
+  }, 2400);
 }
 
-// Global initialization
-document.addEventListener("DOMContentLoaded", () => {
-  renderBestSellers();
-  renderDogSupplies();
-  renderCatEssentials();
-  renderFullCatalog();
-  updateCartBadge();
-  initFlashSaleTimer();
+// Global Keydown (Escape closes cart)
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeCart();
+});
 
-  if (window.lucide) {
-    window.lucide.createIcons();
-  }
+// App Initialization
+document.addEventListener('DOMContentLoaded', () => {
+  // Year
+  const yearElem = document.getElementById('current-year');
+  if (yearElem) yearElem.textContent = new Date().getFullYear();
+
+  // Load and Render
+  updateLiveStoreStatus();
+  setInterval(updateLiveStoreStatus, 60000);
+
+  renderCatalog();
+  renderReviews();
+  loadCart();
+
+  if (window.lucide) window.lucide.createIcons();
 });
