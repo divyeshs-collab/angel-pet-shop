@@ -1,5 +1,7 @@
 # Angel Pet Shop - Modern E-Commerce Website
 
+**Live Website:** [https://divyeshs-collab.github.io/angel-pet-shop/](https://divyeshs-collab.github.io/angel-pet-shop/)
+
 A modern, high-converting, mobile-first responsive retail website for **Angel Pet Shop**, located in Ghatkopar West, Mumbai.
 
 ## Features
