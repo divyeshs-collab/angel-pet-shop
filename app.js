@@ -685,6 +685,10 @@ function filterCategory(category) {
 
 function handleSearch(query) {
   searchQuery = query;
+  const desktopInput = document.getElementById('product-search');
+  const mobileInput = document.getElementById('mobile-product-search');
+  if (desktopInput && desktopInput.value !== query) desktopInput.value = query;
+  if (mobileInput && mobileInput.value !== query) mobileInput.value = query;
   renderCatalog();
 }
 
@@ -694,6 +698,7 @@ function handleSearch(query) {
 function updateLiveStoreStatus() {
   const pill = document.getElementById('live-status-pill');
   const textElem = document.getElementById('status-text');
+  const compactTextElem = document.getElementById('status-text-compact');
   if (!pill || !textElem) return;
 
   const now = new Date();
@@ -712,9 +717,11 @@ function updateLiveStoreStatus() {
   if (isOpen) {
     pill.className = 'live-status-pill open';
     textElem.textContent = 'Open Now · Closes 10:30 PM';
+    if (compactTextElem) compactTextElem.textContent = 'Open';
   } else {
     pill.className = 'live-status-pill closed';
     textElem.textContent = 'Closed Now · Opens 10:00 AM';
+    if (compactTextElem) compactTextElem.textContent = 'Closed';
   }
 }
 

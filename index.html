@@ -26,7 +26,8 @@
       <div class="top-bar-left">
         <span class="top-bar-item">
           <span class="top-bar-pill">Fast Delivery</span>
-          <span>Doorstep Delivery across Ghatkopar & Mumbai Suburbs</span>
+          <span class="hide-mobile">Doorstep Delivery across Ghatkopar & Mumbai Suburbs</span>
+          <span class="show-mobile">Mumbai Delivery</span>
         </span>
         <span class="top-bar-item hide-mobile">
           <i data-lucide="clock" style="width: 13px; height: 13px; color: #38BDF8;"></i>
@@ -36,7 +37,8 @@
       <div class="top-bar-right">
         <a href="tel:+919594341999" class="top-bar-item">
           <i data-lucide="phone" style="width: 13px; height: 13px; color: #38BDF8;"></i>
-          <span>Call Store: 095943 41999</span>
+          <span class="hide-mobile">Call Store: 095943 41999</span>
+          <span class="show-mobile">095943 41999</span>
         </a>
         <a href="https://wa.me/919594341999" target="_blank" rel="noopener noreferrer" class="top-bar-item hide-mobile" style="color: #4ADE80;">
           <i data-lucide="message-circle" style="width: 13px; height: 13px;"></i>
@@ -59,7 +61,7 @@
           <span class="brand-location">Asalpha · Ghatkopar West, Mumbai</span>
         </a>
 
-        <!-- Live Search Bar -->
+        <!-- Live Search Bar (Desktop) -->
         <div class="header-search">
           <div class="search-input-wrap">
             <i data-lucide="search" class="search-icon"></i>
@@ -78,11 +80,12 @@
           <!-- Live Store Status Pill -->
           <div class="live-status-pill open" id="live-status-pill" title="Store operating status">
             <span class="status-dot"></span>
-            <span id="status-text">Open Now · Closes 10:30 PM</span>
+            <span class="status-text-full" id="status-text">Open Now · Closes 10:30 PM</span>
+            <span class="status-text-compact" id="status-text-compact">Open</span>
           </div>
 
           <!-- Direct Phone -->
-          <a href="tel:+919594341999" class="btn btn-secondary btn-sm" title="Call Angel Pet Shop">
+          <a href="tel:+919594341999" class="btn btn-secondary btn-sm header-phone-btn" title="Call Angel Pet Shop">
             <i data-lucide="phone" style="width: 14px; height: 14px;"></i>
             <span>095943 41999</span>
           </a>
@@ -222,6 +225,20 @@
     <section class="section" id="catalog-section">
       <div class="container">
         
+        <!-- Mobile Search Bar (Appears on Mobile inside Catalog) -->
+        <div class="mobile-search-bar" id="mobile-search-bar">
+          <div class="search-input-wrap">
+            <i data-lucide="search" class="search-icon"></i>
+            <input 
+              type="text" 
+              id="mobile-product-search" 
+              class="header-search-input" 
+              placeholder="Search pet foods, brands (Royal Canin, Farmina)..." 
+              oninput="handleSearch(this.value)"
+            />
+          </div>
+        </div>
+
         <div class="catalog-toolbar">
           <div>
             <h2 style="font-size: 24px; font-weight: 800; color: #0F172A;" id="current-category-title">

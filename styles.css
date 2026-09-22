@@ -120,6 +120,12 @@ img {
   padding: 0 20px;
 }
 
+@media (max-width: 640px) {
+  .container {
+    padding: 0 14px;
+  }
+}
+
 /* Section Spacing & Scroll Offset */
 .section {
   padding: 60px 0;
@@ -128,8 +134,8 @@ img {
 
 @media (max-width: 768px) {
   .section {
-    padding: 44px 0;
-    scroll-margin-top: 100px;
+    padding: 40px 0;
+    scroll-margin-top: 90px;
   }
 }
 
@@ -214,12 +220,34 @@ img {
   letter-spacing: 0.05em;
 }
 
+.show-mobile {
+  display: none !important;
+}
+
+.status-text-compact {
+  display: none;
+}
+
 @media (max-width: 860px) {
-  .top-bar-left .hide-mobile, .top-bar-right .hide-mobile {
-    display: none;
+  .hide-mobile {
+    display: none !important;
+  }
+  .show-mobile {
+    display: inline-flex !important;
   }
   .top-bar-inner {
-    justify-content: center;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 640px) {
+  .top-bar {
+    padding: 5px 0;
+    font-size: 11px;
+  }
+  .top-bar-pill {
+    font-size: 9.5px;
+    padding: 1px 6px;
   }
 }
 
@@ -322,6 +350,60 @@ img {
   .header-search {
     display: none;
   }
+
+  .header-main {
+    height: 64px;
+    gap: 12px;
+  }
+
+  .brand-name {
+    font-size: 19px;
+  }
+
+  .brand-location {
+    font-size: 10px;
+  }
+
+  .header-actions {
+    gap: 8px;
+  }
+
+  .header-actions .header-phone-btn {
+    display: none !important;
+  }
+
+  .status-text-full {
+    display: none;
+  }
+
+  .status-text-compact {
+    display: inline;
+  }
+
+  .live-status-pill {
+    padding: 4px 9px;
+    font-size: 11.5px;
+  }
+
+  .cart-header-btn {
+    padding: 7px 13px;
+    font-size: 12.5px;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 380px) {
+  .brand-name {
+    font-size: 17px;
+  }
+
+  .brand-location {
+    font-size: 9.5px;
+  }
+
+  .live-status-pill {
+    padding: 4px 6px;
+  }
 }
 
 /* Header Action Buttons */
@@ -408,6 +490,7 @@ img {
   background: #FFFFFF;
   border-top: 1px solid var(--border-subtle);
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 }
 
@@ -443,6 +526,18 @@ img {
   background: #0284C7;
   color: #FFFFFF;
   font-weight: 700;
+}
+
+/* Mobile Search Bar (Inside Catalog on Mobile) */
+.mobile-search-bar {
+  display: none;
+  margin-bottom: 18px;
+}
+
+@media (max-width: 768px) {
+  .mobile-search-bar {
+    display: block;
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -501,8 +596,47 @@ img {
 }
 
 @media (max-width: 640px) {
+  .retail-hero {
+    padding: 24px 0 32px;
+  }
+
   .hero-headline {
-    font-size: 28px;
+    font-size: 26px;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+
+  .hero-subhead {
+    font-size: 13.5px;
+    line-height: 1.55;
+    margin-bottom: 18px;
+  }
+
+  .hero-perk-badges {
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .hero-perk-badge {
+    font-size: 11.5px;
+    padding: 5px 10px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 18px;
+    font-size: 14px;
+  }
+
+  .hero-steps-card {
+    padding: 18px 16px;
+    border-radius: var(--radius-lg);
   }
 }
 
@@ -758,13 +892,59 @@ img {
 }
 
 @media (max-width: 768px) {
+  .catalog-toolbar {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+  }
+
   .product-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
+    gap: 12px;
+  }
+
+  .product-img-wrap {
+    height: 140px;
+  }
+
+  .product-body {
+    padding: 10px 10px 12px;
+  }
+
+  .product-title {
+    font-size: 13px;
+    line-height: 1.3;
+    min-height: 34px;
+    margin-bottom: 6px;
+  }
+
+  .variant-selector-wrap {
+    margin-bottom: 8px;
+  }
+
+  .variant-pills {
+    gap: 4px;
+  }
+
+  .variant-pill {
+    font-size: 10.5px;
+    padding: 3px 6px;
+  }
+
+  .product-price {
+    font-size: 16px;
+  }
+
+  .btn-add-cart {
+    font-size: 11.5px;
+    padding: 7px 6px;
+  }
+
+  .btn-quick-wa {
+    padding: 7px 8px;
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 340px) {
   .product-grid {
     grid-template-columns: 1fr;
   }
@@ -1283,6 +1463,54 @@ img {
   line-height: 1.4;
 }
 
+@media (max-width: 640px) {
+  .cart-drawer {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .cart-drawer-header {
+    padding: 16px;
+  }
+
+  .cart-drawer-title {
+    font-size: 16.5px;
+  }
+
+  .cart-items-wrap {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .cart-item {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .cart-item-img {
+    width: 54px;
+    height: 54px;
+  }
+
+  .cart-item-title {
+    font-size: 13px;
+  }
+
+  .cart-drawer-footer {
+    padding: 14px 16px calc(18px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .cart-input {
+    font-size: 16px;
+    padding: 8px 10px;
+  }
+
+  .btn-proceed-wa {
+    font-size: 14px;
+    padding: 13px 16px;
+  }
+}
+
 /* --------------------------------------------------------------------------
    Google Reviews Section (Authentic Local Proof)
    -------------------------------------------------------------------------- */
@@ -1536,6 +1764,22 @@ img {
   transform: translateX(-50%) translateY(0);
 }
 
+@media (max-width: 640px) {
+  .floating-cart-pill {
+    bottom: 14px;
+    width: calc(100% - 28px);
+    max-width: 380px;
+    padding: 10px 16px;
+    font-size: 13px;
+    justify-content: space-between;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.28);
+  }
+
+  body {
+    padding-bottom: 70px;
+  }
+}
+
 /* Global Toast */
 .toast-msg {
   position: fixed;
@@ -1640,4 +1884,16 @@ img {
   flex-wrap: wrap;
   gap: 16px;
   font-size: 12px;
+}
+
+@media (max-width: 640px) {
+  .site-footer {
+    padding: 36px 0 24px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
 }
