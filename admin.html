@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Admin Dashboard | Angel Pet Shop (Ghatkopar West)</title>
+  <meta name="description" content="Admin inventory and product management dashboard for Angel Pet Shop, Ghatkopar West, Mumbai.">
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Admin Design System -->
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <!-- 1. Admin Sticky Header -->
+  <header class="admin-header">
+    <div class="container admin-header-inner">
+      <div class="brand-section">
+        <a href="admin.html" class="brand-logo-text">
+          Angel <span>Pet Shop</span>
+        </a>
+        <span class="admin-badge">Inventory Admin</span>
+      </div>
+
+      <div class="admin-header-actions">
+        <!-- Storefront Link -->
+        <a href="index.html" class="btn-header" target="_blank" title="Open customer-facing storefront in new tab">
+          <i data-lucide="external-link" style="width: 14px; height: 14px;"></i>
+          <span>Live Store</span>
+        </a>
+
+        <!-- Orders / Enquiries Log -->
+        <button type="button" class="btn-header" onclick="openEnquiriesModal()" title="View logged customer WhatsApp orders">
+          <i data-lucide="message-square" style="width: 14px; height: 14px;"></i>
+          <span>Customer Orders</span>
+        </button>
+
+        <!-- Backup Export -->
+        <button type="button" class="btn-header" onclick="exportCatalogJSON()" title="Export catalog as JSON backup">
+          <i data-lucide="download" style="width: 14px; height: 14px;"></i>
+          <span class="hide-mobile">Export</span>
+        </button>
+
+        <!-- Backup Import -->
+        <button type="button" class="btn-header" onclick="triggerImportDialog()" title="Restore catalog from JSON file">
+          <i data-lucide="upload" style="width: 14px; height: 14px;"></i>
+          <span class="hide-mobile">Import</span>
+        </button>
+
+        <!-- Lock / Logout -->
+        <button type="button" class="btn-header danger" onclick="lockAdmin()" title="Lock session">
+          <i data-lucide="lock" style="width: 14px; height: 14px;"></i>
+          <span class="hide-mobile">Lock</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hidden File Input for Catalog Restore -->
+  <input type="file" id="import-file-input" accept=".json" style="display: none;" onchange="handleFileImport(event)" />
+
+  <!-- 2. Main Admin Workspace -->
+  <main class="admin-main">
+    <div class="container">
+      
+      <!-- Title & Quick Actions Row -->
+      <div class="dashboard-title-row">
+        <div>
+          <h1 class="dashboard-heading">Product Inventory Management</h1>
+          <p class="dashboard-subheading">Manage retail catalog, pack size variants, pricing (₹), and live stock availability.</p>
+        </div>
+
+        <div class="dashboard-actions">
+          <button type="button" class="btn-secondary" onclick="resetToDefaultCatalog()" title="Reset to original 12 curated products">
+            <i data-lucide="rotate-ccw" style="width: 14px; height: 14px;"></i>
+            <span>Reset Defaults</span>
+          </button>
+          <button type="button" class="btn-primary" onclick="openAddModal()">
+            <i data-lucide="plus-circle" style="width: 16px; height: 16px;"></i>
+            <span>Add New Product</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 3. KPI Overview Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-info">
+            <span class="kpi-label">Total Products</span>
+            <span class="kpi-value" id="kpi-total-products">12</span>
+            <span class="kpi-sub">Curated items</span>
+          </div>
+          <div class="kpi-icon-wrap kpi-icon-blue">
+            <i data-lucide="box" style="width: 22px; height: 22px;"></i>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-info">
+            <span class="kpi-label">In Stock</span>
+            <span class="kpi-value" id="kpi-instock" style="color: #10B981;">12</span>
+            <span class="kpi-sub">Available for orders</span>
+          </div>
+          <div class="kpi-icon-wrap kpi-icon-green">
+            <i data-lucide="check-circle-2" style="width: 22px; height: 22px;"></i>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-info">
+            <span class="kpi-label">Out of Stock</span>
+            <span class="kpi-value" id="kpi-outstock" style="color: #EF4444;">0</span>
+            <span class="kpi-sub">Needs replenishment</span>
+          </div>
+          <div class="kpi-icon-wrap kpi-icon-amber">
+            <i data-lucide="alert-triangle" style="width: 22px; height: 22px;"></i>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-info">
+            <span class="kpi-label">Categories</span>
+            <span class="kpi-value" id="kpi-categories">6</span>
+            <span class="kpi-sub">Food, litter &amp; care</span>
+          </div>
+          <div class="kpi-icon-wrap kpi-icon-purple">
+            <i data-lucide="layers" style="width: 22px; height: 22px;"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Inventory Data Panel -->
+      <div class="inventory-panel">
+        
+        <!-- Filter & Search Toolbar -->
+        <div class="inventory-toolbar">
+          <div class="toolbar-left">
+            <div class="search-box">
+              <i data-lucide="search" style="width: 15px; height: 15px;"></i>
+              <input 
+                type="text" 
+                id="admin-search-input" 
+                class="search-input" 
+                placeholder="Search products, brands, or pack sizes..." 
+                oninput="handleSearch(this.value)" 
+              />
+            </div>
+
+            <!-- Category Filter -->
+            <select id="filter-category" class="filter-select" onchange="handleCategoryFilter(this.value)">
+              <option value="all">All Categories</option>
+              <option value="dog-food">Dog Food &amp; Diets</option>
+              <option value="cat-food">Cat Food &amp; Wet Meals</option>
+              <option value="treats">Treats &amp; Dental Chews</option>
+              <option value="grooming">Grooming &amp; Cat Litter</option>
+              <option value="accessories">Leashes &amp; Toys</option>
+              <option value="health">Supplements &amp; Care</option>
+            </select>
+
+            <!-- Stock Status Filter -->
+            <select id="filter-stock" class="filter-select" onchange="handleStockFilter(this.value)">
+              <option value="all">All Stock Status</option>
+              <option value="in-stock">In Stock Only</option>
+              <option value="out-stock">Out of Stock Only</option>
+            </select>
+
+            <!-- Sort -->
+            <select id="filter-sort" class="filter-select" onchange="handleSort(this.value)">
+              <option value="default">Default Order</option>
+              <option value="name-asc">Name (A – Z)</option>
+              <option value="name-desc">Name (Z – A)</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+            </select>
+          </div>
+
+          <div class="toolbar-right">
+            <span id="table-count-label" style="font-size: 13px; font-weight: 600; color: var(--text-muted);">
+              Showing 12 items
+            </span>
+          </div>
+        </div>
+
+        <!-- Desktop Products Table -->
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Product &amp; Brand</th>
+                <th>Category</th>
+                <th>Pack Sizes &amp; Prices (₹)</th>
+                <th>Stock Availability</th>
+                <th style="text-align: right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="product-table-body">
+              <!-- Rendered via admin.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Mobile Products Cards (Visible on screens < 860px) -->
+        <div class="mobile-cards-wrap" id="mobile-cards-wrap">
+          <!-- Rendered via admin.js -->
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- 5. Add / Edit Product Modal -->
+  <div class="modal-overlay" id="product-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-title-text">Add New Product</h3>
+        <button type="button" class="modal-close-btn" onclick="closeModal()">
+          <i data-lucide="x" style="width: 18px; height: 18px;"></i>
+        </button>
+      </div>
+
+      <form id="product-form" onsubmit="handleProductFormSubmit(event)">
+        <div class="modal-body">
+          <input type="hidden" id="prod-id" />
+
+          <!-- Title -->
+          <div class="form-group">
+            <label class="form-label" for="prod-name">Product Name <span class="req">*</span></label>
+            <input type="text" id="prod-name" class="form-input" placeholder="e.g. Royal Canin Maxi Adult Dry Dog Food" required />
+          </div>
+
+          <!-- Brand & Category Row -->
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="prod-brand">Brand <span class="req">*</span></label>
+              <input type="text" id="prod-brand" class="form-input" placeholder="e.g. Royal Canin" required />
+              <!-- Quick Brand Chips -->
+              <div class="quick-chips-wrap">
+                <span class="quick-chip" onclick="setQuickBrand('Royal Canin')">Royal Canin</span>
+                <span class="quick-chip" onclick="setQuickBrand('Farmina N&D')">Farmina N&D</span>
+                <span class="quick-chip" onclick="setQuickBrand('Drools')">Drools</span>
+                <span class="quick-chip" onclick="setQuickBrand('Whiskas')">Whiskas</span>
+                <span class="quick-chip" onclick="setQuickBrand('Sheba')">Sheba</span>
+                <span class="quick-chip" onclick="setQuickBrand('Pedigree PRO')">Pedigree PRO</span>
+                <span class="quick-chip" onclick="setQuickBrand('Gnawlers')">Gnawlers</span>
+                <span class="quick-chip" onclick="setQuickBrand('Himalaya')">Himalaya</span>
+                <span class="quick-chip" onclick="setQuickBrand('KONG')">KONG</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="prod-category">Category <span class="req">*</span></label>
+              <select id="prod-category" class="form-select" required>
+                <option value="dog-food">Dog Food &amp; Diets</option>
+                <option value="cat-food">Cat Food &amp; Wet Meals</option>
+                <option value="treats">Treats &amp; Dental Chews</option>
+                <option value="grooming">Grooming &amp; Cat Litter</option>
+                <option value="accessories">Leashes &amp; Toys</option>
+                <option value="health">Supplements &amp; Care</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Image URL + Preview -->
+          <div class="form-group">
+            <label class="form-label" for="prod-image">Image URL</label>
+            <div class="image-preview-group">
+              <img id="image-preview" src="https://images.unsplash.com/photo-1589924691995-400dc9ecc119?auto=format&fit=crop&w=200&q=80" alt="Preview" class="img-preview-box" />
+              <div style="flex: 1;">
+                <input 
+                  type="url" 
+                  id="prod-image" 
+                  class="form-input" 
+                  placeholder="https://..." 
+                  oninput="updateImagePreview(this.value)" 
+                />
+                <button type="button" class="btn-add-variant" style="margin-top: 6px;" onclick="openImagePicker()">
+                  <i data-lucide="image" style="width: 13px; height: 13px;"></i>
+                  <span>Choose from Sample Pet Images</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Multi-Variant Builder (Sizes & Prices) -->
+          <div class="form-group">
+            <div class="variants-builder-header">
+              <label class="form-label">Pack Sizes &amp; INR Pricing (₹) <span class="req">*</span></label>
+              <button type="button" class="btn-add-variant" onclick="addVariantRow('', '')">
+                <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
+                <span>Add Pack Size</span>
+              </button>
+            </div>
+            
+            <div id="variants-builder-list">
+              <!-- Dynamically populated rows -->
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="form-group">
+            <label class="form-label" for="prod-desc">Short Description / Benefits</label>
+            <textarea id="prod-desc" class="form-textarea" placeholder="Key nutritional benefits, target breed or usage instructions..."></textarea>
+          </div>
+
+          <!-- In Stock Checkbox -->
+          <div class="form-group" style="margin-top: 4px;">
+            <label class="switch-label">
+              <input type="checkbox" id="prod-instock" class="switch-input" checked />
+              <span class="switch-track">
+                <span class="switch-thumb"></span>
+              </span>
+              <span style="font-size: 13px; font-weight: 600; color: var(--text-primary);">Product is currently In Stock</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="btn-primary">
+            <i data-lucide="check" style="width: 15px; height: 15px;"></i>
+            <span>Save Product</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 6. Sample Image Picker Modal -->
+  <div class="modal-overlay" id="image-picker-modal">
+    <div class="modal-container" style="max-width: 580px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Select Sample Pet Image</h3>
+        <button type="button" class="modal-close-btn" onclick="closeImagePicker()">
+          <i data-lucide="x" style="width: 18px; height: 18px;"></i>
+        </button>
+      </div>
+      <div class="modal-body" style="padding: 16px;">
+        <div id="image-picker-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px;">
+          <!-- Injected via admin.js -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" onclick="closeImagePicker()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Delete Confirmation Modal -->
+  <div class="modal-overlay" id="delete-modal">
+    <div class="modal-container" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3 class="modal-title" style="color: #EF4444; display: flex; align-items: center; gap: 8px;">
+          <i data-lucide="alert-triangle" style="width: 20px; height: 20px;"></i>
+          <span>Delete Product</span>
+        </h3>
+        <button type="button" class="modal-close-btn" onclick="closeDeleteModal()">
+          <i data-lucide="x" style="width: 18px; height: 18px;"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">
+          Are you sure you want to permanently remove <strong id="delete-product-name" style="color: var(--text-primary);">this product</strong> from store inventory?
+        </p>
+        <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 8px;">
+          This will immediately remove it from the customer storefront and cart catalog.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+        <button type="button" class="btn-primary" style="background: #EF4444; border-color: #EF4444;" onclick="executeDelete()">
+          <i data-lucide="trash-2" style="width: 15px; height: 15px;"></i>
+          <span>Yes, Delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. Customer WhatsApp Enquiries Log Modal -->
+  <div class="modal-overlay" id="enquiries-modal">
+    <div class="modal-container" style="max-width: 620px;">
+      <div class="modal-header">
+        <h3 class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+          <i data-lucide="message-square" style="width: 18px; height: 18px; color: var(--color-primary);"></i>
+          <span>Logged WhatsApp Customer Orders</span>
+        </h3>
+        <button type="button" class="modal-close-btn" onclick="closeEnquiriesModal()">
+          <i data-lucide="x" style="width: 18px; height: 18px;"></i>
+        </button>
+      </div>
+      <div class="modal-body" id="enquiries-list-container">
+        <!-- Rendered via admin.js -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" onclick="closeEnquiriesModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. PIN Security Lock Gate -->
+  <div class="pin-gate-modal" id="pin-gate-modal">
+    <div class="pin-gate-card" id="pin-gate-card">
+      <div class="pin-icon-wrap">
+        <i data-lucide="lock" style="width: 28px; height: 28px;"></i>
+      </div>
+      <h2 class="pin-title">Angel Pet Shop Admin</h2>
+      <p class="pin-desc">Enter store management PIN to access product catalog, pricing, and stock controls.</p>
+
+      <form onsubmit="handlePinSubmit(event)">
+        <div class="pin-input-group">
+          <input 
+            type="password" 
+            id="admin-pin-input" 
+            class="pin-input" 
+            placeholder="••••••••" 
+            maxlength="16" 
+            autocomplete="current-password" 
+            required 
+          />
+        </div>
+        <button type="submit" class="btn-primary" style="width: 100%; height: 44px; justify-content: center; font-size: 14px;">
+          <i data-lucide="unlock" style="width: 16px; height: 16px;"></i>
+          <span>Unlock Dashboard</span>
+        </button>
+      </form>
+
+      <p class="pin-hint">Default Store PIN: <strong>angel2026</strong> · <a href="#" onclick="promptChangePin()" style="color: var(--color-primary); text-decoration: underline;">Change PIN</a></p>
+      
+      <div style="margin-top: 18px; border-top: 1px solid var(--border-card); padding-top: 14px;">
+        <a href="index.html" style="font-size: 12.5px; color: var(--text-muted); display: inline-flex; align-items: center; gap: 4px;">
+          <i data-lucide="arrow-left" style="width: 13px; height: 13px;"></i>
+          <span>Return to Storefront</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. Floating Toast Notice -->
+  <div class="admin-toast" id="admin-toast">
+    <i data-lucide="info" style="width: 18px; height: 18px;"></i>
+    <span id="toast-text">Action completed successfully</span>
+  </div>
+
+  <!-- 11. Admin Footer -->
+  <footer class="admin-footer">
+    <div class="container admin-footer-inner">
+      <div>
+        <strong>Angel Pet Shop</strong> · Pachvati niwas Chawl, Asalpha Village, Ghatkopar West, Mumbai 400084
+      </div>
+      <div>
+        WhatsApp Orders: <strong>+91 95943 41999</strong> · Open Daily 10:00 AM – 10:30 PM
+      </div>
+    </div>
+  </footer>
+
+  <!-- Admin Application Logic -->
+  <script src="admin.js"></script>
+</body>
+</html>

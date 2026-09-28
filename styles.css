@@ -962,6 +962,14 @@ img {
   background: #DCFCE7;
   padding: 2px 6px;
   border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.stock-tag.out-of-stock {
+  color: #B91C1C;
+  background: #FEE2E2;
 }
 
 /* Product Card Button Group */

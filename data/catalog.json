@@ -1,12 +1,33 @@
 {
   "categories": [
-    { "id": "all", "name": "All Supplies" },
-    { "id": "dog-food", "name": "Dog Food & Diets" },
-    { "id": "cat-food", "name": "Cat Food & Wet Meals" },
-    { "id": "treats", "name": "Treats & Dental Chews" },
-    { "id": "grooming", "name": "Grooming & Cat Litter" },
-    { "id": "accessories", "name": "Leashes & Toys" },
-    { "id": "health", "name": "Supplements & Care" }
+    {
+      "id": "all",
+      "name": "All Supplies"
+    },
+    {
+      "id": "dog-food",
+      "name": "Dog Food & Diets"
+    },
+    {
+      "id": "cat-food",
+      "name": "Cat Food & Wet Meals"
+    },
+    {
+      "id": "treats",
+      "name": "Treats & Dental Chews"
+    },
+    {
+      "id": "grooming",
+      "name": "Grooming & Cat Litter"
+    },
+    {
+      "id": "accessories",
+      "name": "Leashes & Toys"
+    },
+    {
+      "id": "health",
+      "name": "Supplements & Care"
+    }
   ],
   "products": [
     {
@@ -17,10 +38,20 @@
       "categoryName": "Dog Food & Diets",
       "image": "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?auto=format&fit=crop&w=600&q=80",
       "description": "Tailored nutrition for large breed adult dogs (26 to 44 kg). Supports optimal bone, joint integrity, and digestive health.",
+      "inStock": true,
       "variants": [
-        { "size": "4 kg", "price": 3320 },
-        { "size": "10 kg", "price": 6890 },
-        { "size": "15 kg", "price": 9450 }
+        {
+          "size": "4 kg",
+          "price": 3320
+        },
+        {
+          "size": "10 kg",
+          "price": 6890
+        },
+        {
+          "size": "15 kg",
+          "price": 9450
+        }
       ],
       "benefits": [
         "High joint & bone support under heavy body mass",
@@ -36,10 +67,20 @@
       "categoryName": "Dog Food & Diets",
       "image": "https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=600&q=80",
       "description": "Ultra-premium Italian formulation with 96% protein of animal origin, wholesome pumpkin, and antioxidant-rich blueberries. 100% grain free.",
+      "inStock": true,
       "variants": [
-        { "size": "800 g", "price": 1090 },
-        { "size": "2.5 kg", "price": 2990 },
-        { "size": "7 kg", "price": 6490 }
+        {
+          "size": "800 g",
+          "price": 1090
+        },
+        {
+          "size": "2.5 kg",
+          "price": 2990
+        },
+        {
+          "size": "7 kg",
+          "price": 6490
+        }
       ],
       "benefits": [
         "96% protein of animal origin from pasture-raised lamb",
@@ -55,10 +96,20 @@
       "categoryName": "Dog Food & Diets",
       "image": "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80",
       "description": "Professional nutrition formulation with 32% crude protein, zinc, and omega fatty acids for growing puppies and lactating mothers.",
+      "inStock": true,
       "variants": [
-        { "size": "3 kg", "price": 1050 },
-        { "size": "10 kg", "price": 3150 },
-        { "size": "20 kg", "price": 5600 }
+        {
+          "size": "3 kg",
+          "price": 1050
+        },
+        {
+          "size": "10 kg",
+          "price": 3150
+        },
+        {
+          "size": "20 kg",
+          "price": 5600
+        }
       ],
       "benefits": [
         "32% high-grade protein for robust muscular growth",
@@ -74,10 +125,20 @@
       "categoryName": "Cat Food & Wet Meals",
       "image": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=600&q=80",
       "description": "Crunchy kibbles with savory real ocean fish pockets, providing 41 essential nutrients, taurine, and urinary tract care.",
+      "inStock": true,
       "variants": [
-        { "size": "1.2 kg", "price": 450 },
-        { "size": "3 kg", "price": 1050 },
-        { "size": "7 kg", "price": 2250 }
+        {
+          "size": "1.2 kg",
+          "price": 450
+        },
+        {
+          "size": "3 kg",
+          "price": 1050
+        },
+        {
+          "size": "7 kg",
+          "price": 2250
+        }
       ],
       "benefits": [
         "Crunchy pockets with savory real fish center",
@@ -93,10 +154,20 @@
       "categoryName": "Cat Food & Wet Meals",
       "image": "https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=600&q=80",
       "description": "Delicate cuts of flaked genuine tuna and salmon in exquisite gravy. Highly palatable and provides vital daily hydration.",
+      "inStock": true,
       "variants": [
-        { "size": "Pack of 6 (85g)", "price": 390 },
-        { "size": "Pack of 12 (85g)", "price": 750 },
-        { "size": "Pack of 24 (85g)", "price": 1440 }
+        {
+          "size": "Pack of 6 (85g)",
+          "price": 390
+        },
+        {
+          "size": "Pack of 12 (85g)",
+          "price": 750
+        },
+        {
+          "size": "Pack of 24 (85g)",
+          "price": 1440
+        }
       ],
       "benefits": [
         "100% authentic whole seafood fillets in savory gravy",
@@ -112,10 +183,20 @@
       "categoryName": "Cat Food & Wet Meals",
       "image": "https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=600&q=80",
       "description": "Essential immune support, digestive health, and balanced growth nutrients for young kittens from 4 to 12 months.",
+      "inStock": true,
       "variants": [
-        { "size": "400 g", "price": 490 },
-        { "size": "2 kg", "price": 2150 },
-        { "size": "4 kg", "price": 3850 }
+        {
+          "size": "400 g",
+          "price": 490
+        },
+        {
+          "size": "2 kg",
+          "price": 2150
+        },
+        {
+          "size": "4 kg",
+          "price": 3850
+        }
       ],
       "benefits": [
         "Antioxidant complex (Vitamins C & E) for young immunity",
@@ -131,10 +212,20 @@
       "categoryName": "Treats & Dental Chews",
       "image": "https://images.unsplash.com/photo-1535930891776-0c2dfb7fda1a?auto=format&fit=crop&w=600&q=80",
       "description": "Specially formulated dental chews that massage gums, reduce tartar build-up, and freshen breath with genuine milk protein.",
+      "inStock": true,
       "variants": [
-        { "size": "Small (270g)", "price": 290 },
-        { "size": "Medium (300g)", "price": 350 },
-        { "size": "Large (350g)", "price": 420 }
+        {
+          "size": "Small (270g)",
+          "price": 290
+        },
+        {
+          "size": "Medium (300g)",
+          "price": 350
+        },
+        {
+          "size": "Large (350g)",
+          "price": 420
+        }
       ],
       "benefits": [
         "Massages gums and cleans tartar down to the gumline",
@@ -150,9 +241,16 @@
       "categoryName": "Grooming & Cat Litter",
       "image": "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&w=600&q=80",
       "description": "99.5% dust-free natural sodium bentonite clay litter with instant clumping and soothing lavender odor control for apartments.",
+      "inStock": true,
       "variants": [
-        { "size": "5 Litres", "price": 450 },
-        { "size": "10 Litres", "price": 850 }
+        {
+          "size": "5 Litres",
+          "price": 450
+        },
+        {
+          "size": "10 Litres",
+          "price": 850
+        }
       ],
       "benefits": [
         "Instant tight clumping for effortless scooping",
@@ -168,9 +266,16 @@
       "categoryName": "Grooming & Cat Litter",
       "image": "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=600&q=80",
       "description": "Mild coconut oil based conditioning shampoo that cleans without stripping natural oils. pH balanced and tearless.",
+      "inStock": true,
       "variants": [
-        { "size": "355 ml", "price": 1250 },
-        { "size": "946 ml", "price": 2650 }
+        {
+          "size": "355 ml",
+          "price": 1250
+        },
+        {
+          "size": "946 ml",
+          "price": 2650
+        }
       ],
       "benefits": [
         "Pure coconut oil cleanser base that retains natural skin oils",
@@ -186,9 +291,16 @@
       "categoryName": "Supplements & Care",
       "image": "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=600&q=80",
       "description": "Ayurvedic calcium and phosphorus tonic ensuring strong bone development, teeth strength, and skeletal integrity in puppies and dogs.",
+      "inStock": true,
       "variants": [
-        { "size": "200 ml", "price": 180 },
-        { "size": "500 ml", "price": 380 }
+        {
+          "size": "200 ml",
+          "price": 180
+        },
+        {
+          "size": "500 ml",
+          "price": 380
+        }
       ],
       "benefits": [
         "1:0.8 calcium-to-phosphorus ratio for fast bone absorption",
@@ -204,10 +316,20 @@
       "categoryName": "Leashes & Toys",
       "image": "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&w=600&q=80",
       "description": "No-pull ergonomic harness with breathable air mesh, reinforced metal D-rings, and 3M reflective threading for evening walks.",
+      "inStock": true,
       "variants": [
-        { "size": "Small", "price": 650 },
-        { "size": "Medium", "price": 850 },
-        { "size": "Large", "price": 1150 }
+        {
+          "size": "Small",
+          "price": 650
+        },
+        {
+          "size": "Medium",
+          "price": 850
+        },
+        {
+          "size": "Large",
+          "price": 1150
+        }
       ],
       "benefits": [
         "Ergonomic chest padding distributes pull evenly to protect neck",
@@ -223,9 +345,16 @@
       "categoryName": "Leashes & Toys",
       "image": "https://images.unsplash.com/photo-1541599540903-216a46ca1dc0?auto=format&fit=crop&w=600&q=80",
       "description": "Gold standard of dog toys for over 40 years. Ultra-durable natural red rubber that cures boredom, anxiety, and satisfies instinctual chewing.",
+      "inStock": true,
       "variants": [
-        { "size": "Medium", "price": 990 },
-        { "size": "Large", "price": 1350 }
+        {
+          "size": "Medium",
+          "price": 990
+        },
+        {
+          "size": "Large",
+          "price": 1350
+        }
       ],
       "benefits": [
         "Ultra-durable natural all-rubber resists power chewers",

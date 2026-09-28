@@ -103,6 +103,35 @@ app.get('/api/catalog', (req, res) => {
   res.status(500).json({ error: 'Catalog unavailable' });
 });
 
+app.post('/api/catalog', (req, res) => {
+  try {
+    const { products, categories } = req.body;
+    if (!Array.isArray(products)) {
+      return res.status(400).json({ error: 'Invalid products array' });
+    }
+    const dataDir = path.join(__dirname, 'data');
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
+    const catalogPath = path.join(dataDir, 'catalog.json');
+    let currentData = { categories: [], products: [] };
+    if (fs.existsSync(catalogPath)) {
+      try {
+        currentData = JSON.parse(fs.readFileSync(catalogPath, 'utf8'));
+      } catch (e) {}
+    }
+    const updated = {
+      categories: categories || currentData.categories || [],
+      products: products
+    };
+    fs.writeFileSync(catalogPath, JSON.stringify(updated, null, 2), 'utf8');
+    res.json({ success: true, count: products.length });
+  } catch (err) {
+    console.error('Error saving catalog:', err);
+    res.status(500).json({ error: 'Failed to write catalog file' });
+  }
+});
+
 // 3. Authentic Google Reviews
 app.get('/api/reviews', (req, res) => {
   res.json({

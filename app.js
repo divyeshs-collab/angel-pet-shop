@@ -18,8 +18,8 @@ const STORE = {
   closeMinute: 30
 };
 
-// Curated Pet Inventory with Variants and Genuine INR Pricing
-const PRODUCTS = [
+// Curated Default Pet Inventory with Variants and Genuine INR Pricing
+const DEFAULT_PRODUCTS = [
   {
     id: "royal-canin-maxi-adult",
     name: "Royal Canin Maxi Adult Dry Dog Food",
@@ -186,6 +186,36 @@ const PRODUCTS = [
   }
 ];
 
+// Active Curated Pet Inventory (Synchronized with Admin Management)
+let PRODUCTS = [...DEFAULT_PRODUCTS];
+
+function initProducts() {
+  try {
+    const custom = localStorage.getItem('angel_pet_shop_custom_inventory');
+    if (custom) {
+      const parsed = JSON.parse(custom);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        PRODUCTS = parsed;
+        return;
+      }
+    }
+  } catch (e) {
+    console.warn('Could not read custom inventory:', e);
+  }
+  PRODUCTS = [...DEFAULT_PRODUCTS];
+}
+
+initProducts();
+
+// Listen for updates from Admin Dashboard in another tab or window
+window.addEventListener('storage', (e) => {
+  if (e.key === 'angel_pet_shop_custom_inventory') {
+    initProducts();
+    if (typeof renderCatalog === 'function') renderCatalog();
+    if (typeof updateCartUI === 'function') updateCartUI();
+  }
+});
+
 // Authentic Verified Google Reviews
 const REVIEWS = [
   {
@@ -248,6 +278,11 @@ function saveCart() {
 function addToCart(productId, specificVariantIndex = null) {
   const product = PRODUCTS.find(p => p.id === productId);
   if (!product) return;
+
+  if (product.inStock === false) {
+    showToast(`${product.name} is currently out of stock. Contact us on WhatsApp!`);
+    return;
+  }
 
   const vIdx = specificVariantIndex !== null 
     ? specificVariantIndex 
@@ -642,22 +677,36 @@ function renderCatalog() {
             <div>
               <span class="product-price" id="price-${item.id}">₹${activeVariant.price.toLocaleString('en-IN')}</span>
             </div>
-            <span class="stock-tag">
-              <i data-lucide="check" style="width: 12px; height: 12px;"></i>
-              <span>In Stock</span>
+            <span class="stock-tag ${item.inStock === false ? 'out-of-stock' : ''}">
+              <i data-lucide="${item.inStock === false ? 'alert-triangle' : 'check'}" style="width: 12px; height: 12px;"></i>
+              <span>${item.inStock === false ? 'Out of Stock' : 'In Stock'}</span>
             </span>
           </div>
 
           <div class="product-cta-group">
-            <button 
-              type="button" 
-              class="btn-add-cart" 
-              id="add-btn-${item.id}"
-              onclick="addToCart('${item.id}')"
-            >
-              <i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i>
-              <span>Add to Cart</span>
-            </button>
+            ${item.inStock === false ? `
+              <a 
+                href="https://wa.me/${STORE.whatsappNumber}?text=Hi%20Angel%20Pet%20Shop%2C%20when%20will%20${encodeURIComponent(item.name)}%20be%20available%20in%20Ghatkopar%3F" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="btn-add-cart"
+                style="background: #64748B;"
+                title="Enquire stock on WhatsApp"
+              >
+                <i data-lucide="message-circle" style="width: 14px; height: 14px;"></i>
+                <span>Enquire Stock</span>
+              </a>
+            ` : `
+              <button 
+                type="button" 
+                class="btn-add-cart" 
+                id="add-btn-${item.id}"
+                onclick="addToCart('${item.id}')"
+              >
+                <i data-lucide="shopping-bag" style="width: 14px; height: 14px;"></i>
+                <span>Add to Cart</span>
+              </button>
+            `}
             <a 
               href="https://wa.me/${STORE.whatsappNumber}?text=${encodeURIComponent(waText)}" 
               target="_blank" 
