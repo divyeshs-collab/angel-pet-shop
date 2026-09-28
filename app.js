@@ -326,6 +326,13 @@ function updateCartUI() {
     badge.style.display = totalItems > 0 ? 'flex' : 'none';
   }
 
+  // Bottom Mobile Nav Badge
+  const bottomBadge = document.getElementById('bottom-cart-badge');
+  if (bottomBadge) {
+    bottomBadge.textContent = totalItems;
+    bottomBadge.style.display = totalItems > 0 ? 'flex' : 'none';
+  }
+
   // Drawer Header Count
   const drawerCount = document.getElementById('drawer-item-count');
   if (drawerCount) {
@@ -796,6 +803,17 @@ document.addEventListener('DOMContentLoaded', () => {
   renderCatalog();
   renderReviews();
   loadCart();
+
+  // Mobile Bottom Nav Active Link Handler
+  const bottomNavItems = document.querySelectorAll('.bottom-nav-item');
+  bottomNavItems.forEach(item => {
+    item.addEventListener('click', function() {
+      if (this.getAttribute('href')) {
+        bottomNavItems.forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+      }
+    });
+  });
 
   if (window.lucide) window.lucide.createIcons();
 });

@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>Angel Pet Shop | Ghatkopar West, Mumbai · Pet Food & Supplies</title>
-  <meta name="description" content="Angel Pet Shop in Ghatkopar West, Mumbai. Genuine pet food (Royal Canin, Farmina, Drools), cat litter, and care supplies. Add to cart and send requirement directly to WhatsApp for doorstep delivery.">
+  <meta name="description" content="Angel Pet Shop in Ghatkopar West, Mumbai. Genuine pet food (Royal Canin, Farmina, Drools), cat litter, and care supplies with doorstep delivery across Mumbai.">
   <link rel="canonical" href="https://maps.google.com/?cid=3589467798993884104">
 
   <!-- Open Graph -->
@@ -15,7 +15,7 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- Light Theme E-Commerce Stylesheet -->
+  <!-- Clean E-Commerce Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -26,7 +26,7 @@
       <div class="top-bar-left">
         <span class="top-bar-item">
           <span class="top-bar-pill">Fast Delivery</span>
-          <span class="hide-mobile">Doorstep Delivery across Ghatkopar & Mumbai Suburbs</span>
+          <span class="hide-mobile">Doorstep Delivery across Ghatkopar &amp; Mumbai Suburbs</span>
           <span class="show-mobile">Mumbai Delivery</span>
         </span>
         <span class="top-bar-item hide-mobile">
@@ -53,7 +53,7 @@
     <div class="container">
       <div class="header-main">
         
-        <!-- Brand Wordmark (Clean Typographic Text, No Graphic Logo) -->
+        <!-- Brand Wordmark (Clean Typographic Text, No Clunky Logo) -->
         <a href="#" class="brand-wordmark">
           <div class="brand-name-wrap">
             <span class="brand-name">Angel <span>Pet Shop</span></span>
@@ -61,7 +61,7 @@
           <span class="brand-location">Asalpha · Ghatkopar West, Mumbai</span>
         </a>
 
-        <!-- Live Search Bar (Desktop) -->
+        <!-- Live Search Bar -->
         <div class="header-search">
           <div class="search-input-wrap">
             <i data-lucide="search" class="search-icon"></i>
@@ -84,7 +84,7 @@
             <span class="status-text-compact" id="status-text-compact">Open</span>
           </div>
 
-          <!-- Direct Phone -->
+          <!-- Direct Phone Button (Desktop) -->
           <a href="tel:+919594341999" class="btn btn-secondary btn-sm header-phone-btn" title="Call Angel Pet Shop">
             <i data-lucide="phone" style="width: 14px; height: 14px;"></i>
             <span>095943 41999</span>
@@ -93,30 +93,44 @@
           <!-- Requirement Cart Button -->
           <button class="cart-header-btn" id="header-cart-btn" onclick="openCart()" aria-label="Open requirement cart">
             <i data-lucide="shopping-bag" style="width: 16px; height: 16px;"></i>
-            <span>Cart</span>
+            <span class="hide-mobile">Cart</span>
             <span class="cart-badge" id="cart-badge">0</span>
           </button>
         </div>
 
       </div>
 
-      <!-- Category Navigation Sub-Bar -->
+      <!-- Mobile Search Input Bar (Visible only on mobile below header) -->
+      <div class="mobile-header-search">
+        <div class="search-input-wrap">
+          <i data-lucide="search" class="search-icon"></i>
+          <input 
+            type="text" 
+            id="mobile-product-search" 
+            class="header-search-input" 
+            placeholder="Search brands (Royal Canin, Whiskas, Drools)..." 
+            oninput="handleSearch(this.value)"
+          />
+        </div>
+      </div>
+
+      <!-- Category Navigation Sub-Bar (Touch-scrollable carousel) -->
       <nav class="category-nav-bar" aria-label="Product Categories">
         <ul class="category-nav-list" id="category-nav">
-          <li><button class="category-nav-btn active" data-category="all" onclick="filterCategory('all')">All Supplies</button></li>
-          <li><button class="category-nav-btn" data-category="dog-food" onclick="filterCategory('dog-food')">Dog Food & Diets</button></li>
-          <li><button class="category-nav-btn" data-category="cat-food" onclick="filterCategory('cat-food')">Cat Food & Wet Meals</button></li>
-          <li><button class="category-nav-btn" data-category="treats" onclick="filterCategory('treats')">Treats & Chews</button></li>
-          <li><button class="category-nav-btn" data-category="grooming" onclick="filterCategory('grooming')">Grooming & Cat Litter</button></li>
-          <li><button class="category-nav-btn" data-category="accessories" onclick="filterCategory('accessories')">Leashes & Toys</button></li>
-          <li><button class="category-nav-btn" data-category="health" onclick="filterCategory('health')">Supplements & Care</button></li>
+          <li><button class="category-nav-btn active" data-category="all" onclick="filterCategory('all')">🐾 All Supplies</button></li>
+          <li><button class="category-nav-btn" data-category="dog-food" onclick="filterCategory('dog-food')">🐶 Dog Food &amp; Diets</button></li>
+          <li><button class="category-nav-btn" data-category="cat-food" onclick="filterCategory('cat-food')">🐱 Cat Food &amp; Wet Meals</button></li>
+          <li><button class="category-nav-btn" data-category="treats" onclick="filterCategory('treats')">🦴 Treats &amp; Chews</button></li>
+          <li><button class="category-nav-btn" data-category="grooming" onclick="filterCategory('grooming')">🛁 Grooming &amp; Litter</button></li>
+          <li><button class="category-nav-btn" data-category="accessories" onclick="filterCategory('accessories')">🎾 Leashes &amp; Toys</button></li>
+          <li><button class="category-nav-btn" data-category="health" onclick="filterCategory('health')">💊 Health &amp; Care</button></li>
         </ul>
       </nav>
     </div>
   </header>
 
   <main>
-    <!-- 3. Retail Hero Banner (Chewy / Supertails Style) -->
+    <!-- 3. Clean, High-Aesthetic Hero Banner -->
     <section class="retail-hero">
       <div class="container">
         <div class="hero-box">
@@ -130,15 +144,15 @@
                 <i data-lucide="star" style="width: 14px; height: 14px; fill: #F59E0B; color: #F59E0B;"></i>
                 <i data-lucide="star" style="width: 14px; height: 14px; fill: #F59E0B; color: #F59E0B;"></i>
               </span>
-              <span>4.6 / 5.0 (16 Verified Google Reviews)</span>
+              <span>4.6 / 5.0 · 16 Google Reviews</span>
             </div>
 
             <h1 class="hero-headline">
-              Ghatkopar's Neighborhood <span>Pet Food & Supplies</span> Store
+              Ghatkopar's Favorite <span>Pet Food &amp; Supplies</span> Store
             </h1>
 
             <p class="hero-subhead">
-              Shop 100% genuine diets from Royal Canin, Farmina, Whiskas, Drools and daily pet essentials. Add your desired pack sizes to the cart and proceed directly to WhatsApp for same-day doorstep delivery.
+              Genuine diets from Royal Canin, Farmina, Whiskas &amp; Drools. Select your pack size and send your order directly to WhatsApp for doorstep Mumbai delivery.
             </p>
 
             <div class="hero-perk-badges">
@@ -148,72 +162,43 @@
               </span>
               <span class="hero-perk-badge">
                 <i data-lucide="truck" style="width: 14px; height: 14px; color: #0284C7;"></i>
-                <span>Doorstep Delivery in Mumbai</span>
+                <span>Same-Day Mumbai Delivery</span>
               </span>
               <span class="hero-perk-badge">
                 <i data-lucide="message-circle" style="width: 14px; height: 14px; color: #16A34A;"></i>
-                <span>Order on WhatsApp · Zero Prepayment</span>
+                <span>Order via WhatsApp · Pay on Delivery</span>
               </span>
             </div>
 
             <div class="hero-actions">
               <a href="#catalog-section" class="btn btn-primary btn-lg">
-                <i data-lucide="shopping-cart" style="width: 16px; height: 16px;"></i>
-                <span>Browse Products & Add to Cart</span>
+                <i data-lucide="shopping-bag" style="width: 16px; height: 16px;"></i>
+                <span>Browse Products</span>
               </a>
               <a href="https://wa.me/919594341999?text=Hi%20Angel%20Pet%20Shop%2C%20I%20would%20like%20to%20enquire%20about%20pet%20supplies" target="_blank" rel="noopener noreferrer" class="btn btn-wa btn-lg">
                 <i data-lucide="message-circle" style="width: 16px; height: 16px;"></i>
-                <span>Direct WhatsApp Chat</span>
+                <span>WhatsApp Order</span>
               </a>
             </div>
           </div>
 
+          <!-- Hero Right: Aesthetic Pet Visual Card -->
           <div class="hero-right">
-            <div class="hero-steps-card">
-              <div class="hero-steps-header">
+            <div class="hero-visual-card">
+              <img 
+                src="https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=700&q=80" 
+                alt="Happy dog and kitten" 
+                class="hero-img"
+              />
+              <div class="hero-card-floating-badge">
+                <div class="badge-icon-wrap">
+                  <i data-lucide="shield-check" style="width: 18px; height: 18px; color: #0284C7;"></i>
+                </div>
                 <div>
-                  <span class="steps-tag">Simple 3-Step Process</span>
-                  <h3 class="steps-title">How WhatsApp Ordering Works</h3>
-                </div>
-                <span class="steps-badge">Same-Day Dispatch</span>
-              </div>
-
-              <div class="hero-step-items">
-                <div class="hero-step-item">
-                  <div class="step-num-badge">1</div>
-                  <div class="step-content">
-                    <div class="step-heading">Select Pack Size & Add to Cart</div>
-                    <div class="step-subtext">Choose your brand (Royal Canin, Farmina, Drools), pick weight, and add to cart.</div>
-                  </div>
-                </div>
-
-                <div class="hero-step-item">
-                  <div class="step-num-badge">2</div>
-                  <div class="step-content">
-                    <div class="step-heading">Review Requirement Cart</div>
-                    <div class="step-subtext">Check item quantities and enter your delivery address in Mumbai.</div>
-                  </div>
-                </div>
-
-                <div class="hero-step-item">
-                  <div class="step-num-badge">3</div>
-                  <div class="step-content">
-                    <div class="step-heading">Direct WhatsApp Confirmation</div>
-                    <div class="step-subtext">Send your list directly to our Ghatkopar store for immediate dispatch.</div>
-                  </div>
+                  <div class="floating-badge-title">Asalpha · Ghatkopar West</div>
+                  <div class="floating-badge-sub">Open 7 Days till 10:30 PM</div>
                 </div>
               </div>
-
-              <div class="steps-perks-row">
-                <span><i data-lucide="check" style="width: 13px; height: 13px; color: #16A34A;"></i> Pay on Delivery</span>
-                <span><i data-lucide="check" style="width: 13px; height: 13px; color: #16A34A;"></i> Zero Prepayment</span>
-                <span><i data-lucide="check" style="width: 13px; height: 13px; color: #16A34A;"></i> 100% Genuine</span>
-              </div>
-
-              <a href="#catalog-section" class="btn btn-dark" style="width: 100%; margin-top: 14px;">
-                <i data-lucide="shopping-bag" style="width: 15px; height: 15px;"></i>
-                <span>Start Adding to Cart</span>
-              </a>
             </div>
           </div>
 
@@ -221,31 +206,17 @@
       </div>
     </section>
 
-    <!-- 4. Product Catalog Section (E-Commerce Grid) -->
+    <!-- 4. Product Catalog Section (Mobile-Optimized 2-Column Grid) -->
     <section class="section" id="catalog-section">
       <div class="container">
         
-        <!-- Mobile Search Bar (Appears on Mobile inside Catalog) -->
-        <div class="mobile-search-bar" id="mobile-search-bar">
-          <div class="search-input-wrap">
-            <i data-lucide="search" class="search-icon"></i>
-            <input 
-              type="text" 
-              id="mobile-product-search" 
-              class="header-search-input" 
-              placeholder="Search pet foods, brands (Royal Canin, Farmina)..." 
-              oninput="handleSearch(this.value)"
-            />
-          </div>
-        </div>
-
         <div class="catalog-toolbar">
           <div>
-            <h2 style="font-size: 24px; font-weight: 800; color: #0F172A;" id="current-category-title">
+            <h2 class="catalog-heading" id="current-category-title">
               All Pet Supplies
             </h2>
-            <p style="font-size: 13px; color: #64748B; margin-top: 2px;">
-              Select your required pack size and click "Add to Cart" to build your order.
+            <p class="catalog-subhead">
+              Pick your required pack size and add to cart to order on WhatsApp.
             </p>
           </div>
 
@@ -254,7 +225,7 @@
           </div>
         </div>
 
-        <!-- Dynamic Product Grid -->
+        <!-- Dynamic Product Grid (2 columns on mobile, 4 columns on desktop) -->
         <div class="product-grid" id="product-grid">
           <!-- Rendered dynamically by app.js -->
         </div>
@@ -262,70 +233,37 @@
       </div>
     </section>
 
-    <!-- 5. Authentic Google Reviews Section -->
+    <!-- 5. Streamlined Google Reviews Section (Clean & Aesthetic, No Bulky Charts) -->
     <section class="section reviews-section" id="reviews-section">
       <div class="container">
-        <div class="section-header">
-          <span class="section-tag">Google Verified</span>
-          <h2 class="section-title">Authentic Customer Reviews</h2>
-          <p class="section-desc">
-            Real feedback from pet parents in Ghatkopar West, Asalpha, and central Mumbai.
-          </p>
-        </div>
-
-        <!-- Google Score Summary Banner -->
-        <div class="reviews-summary-card">
+        <div class="reviews-header-wrap">
           <div>
-            <div class="reviews-score-big">4.6</div>
-            <div class="reviews-stars-gold" style="display: flex; gap: 3px; margin-bottom: 6px;">
-              <i data-lucide="star" style="width: 18px; height: 18px; fill: #F59E0B; color: #F59E0B;"></i>
-              <i data-lucide="star" style="width: 18px; height: 18px; fill: #F59E0B; color: #F59E0B;"></i>
-              <i data-lucide="star" style="width: 18px; height: 18px; fill: #F59E0B; color: #F59E0B;"></i>
-              <i data-lucide="star" style="width: 18px; height: 18px; fill: #F59E0B; color: #F59E0B;"></i>
-              <i data-lucide="star" style="width: 18px; height: 18px; fill: #F59E0B; color: #F59E0B;"></i>
-            </div>
-            <div style="font-size: 13px; font-weight: 700; color: #0F172A;">Based on 16 Google Reviews</div>
-            <div style="font-size: 12px; color: #64748B;">Angel Pet Shop · Ghatkopar West</div>
+            <span class="section-tag">Google Verified</span>
+            <h2 class="section-title">Loved by Pet Parents in Mumbai</h2>
+            <p class="section-desc">
+              Verified reviews from customers in Ghatkopar West, Asalpha, and central Mumbai.
+            </p>
           </div>
 
-          <div style="display: flex; flex-direction: column; gap: 8px;">
-            <div class="rating-bar-row">
-              <span style="width: 44px; font-weight: 600;">5 Star</span>
-              <div class="rating-bar-track"><div class="rating-bar-fill" style="width: 75%;"></div></div>
-              <span style="width: 25px; text-align: right; font-weight: 700;">12</span>
+          <!-- Compact Google Score Pill -->
+          <div class="google-rating-pill">
+            <div class="score-num">4.6</div>
+            <div>
+              <div class="stars-gold">
+                <i data-lucide="star" style="width: 14px; height: 14px; fill: #F59E0B; color: #F59E0B;"></i>
+                <i data-lucide="star" style="width: 14px; height: 14px; fill: #F59E0B; color: #F59E0B;"></i>
+                <i data-lucide="star" style="width: 14px; height: 14px; fill: #F59E0B; color: #F59E0B;"></i>
+                <i data-lucide="star" style="width: 14px; height: 14px; fill: #F59E0B; color: #F59E0B;"></i>
+                <i data-lucide="star" style="width: 14px; height: 14px; fill: #F59E0B; color: #F59E0B;"></i>
+              </div>
+              <a href="https://maps.google.com/?cid=3589467798993884104" target="_blank" rel="noopener noreferrer" class="score-link">
+                16 Reviews on Google Maps ↗
+              </a>
             </div>
-            <div class="rating-bar-row">
-              <span style="width: 44px; font-weight: 600;">4 Star</span>
-              <div class="rating-bar-track"><div class="rating-bar-fill" style="width: 19%;"></div></div>
-              <span style="width: 25px; text-align: right; font-weight: 700;">3</span>
-            </div>
-            <div class="rating-bar-row">
-              <span style="width: 44px; font-weight: 600;">3 Star</span>
-              <div class="rating-bar-track"><div class="rating-bar-fill" style="width: 6%;"></div></div>
-              <span style="width: 25px; text-align: right; font-weight: 700;">1</span>
-            </div>
-            <div class="rating-bar-row">
-              <span style="width: 44px; font-weight: 600;">2 Star</span>
-              <div class="rating-bar-track"><div class="rating-bar-fill" style="width: 0%;"></div></div>
-              <span style="width: 25px; text-align: right; font-weight: 700;">0</span>
-            </div>
-            <div class="rating-bar-row">
-              <span style="width: 44px; font-weight: 600;">1 Star</span>
-              <div class="rating-bar-track"><div class="rating-bar-fill" style="width: 0%;"></div></div>
-              <span style="width: 25px; text-align: right; font-weight: 700;">0</span>
-            </div>
-          </div>
-
-          <div style="display: flex; flex-direction: column; gap: 10px;">
-            <a href="https://maps.google.com/?cid=3589467798993884104" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
-              <i data-lucide="external-link" style="width: 14px; height: 14px;"></i>
-              <span>View on Google Maps</span>
-            </a>
-            <span style="font-size: 11.5px; color: #64748B;">100% Genuine customer feedback</span>
           </div>
         </div>
 
-        <!-- Review Cards Grid -->
+        <!-- Clean Review Cards Grid -->
         <div class="reviews-grid" id="reviews-grid">
           <!-- Populated by app.js -->
         </div>
@@ -368,9 +306,8 @@
                   <div class="location-label">Business Hours</div>
                   <div class="location-val">
                     <strong>Monday – Sunday: 10:00 AM – 10:30 PM</strong>
-                    <div style="font-size: 12px; color: #0284C7; margin-top: 2px; display: flex; align-items: center; gap: 4px;">
-                      <i data-lucide="info" style="width: 13px; height: 13px;"></i>
-                      <span>Usually not too busy around 9:00 PM</span>
+                    <div style="font-size: 12px; color: #0284C7; margin-top: 2px;">
+                      Open 7 days a week, including weekends
                     </div>
                   </div>
                 </div>
@@ -383,7 +320,7 @@
                 <div>
                   <div class="location-label">Telephone</div>
                   <div class="location-val">
-                    <a href="tel:+919594341999" style="font-weight: 700; color: #0F172A;">+91 95943 41999</a> / 095943 41999
+                    <a href="tel:+919594341999" style="font-weight: 700; color: #0F172A;">+91 95943 41999</a>
                   </div>
                 </div>
               </div>
@@ -403,7 +340,7 @@
               </div>
             </div>
 
-            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <div class="location-actions">
               <a href="https://maps.google.com/?cid=3589467798993884104" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="flex: 1;">
                 <i data-lucide="navigation" style="width: 16px; height: 16px;"></i>
                 <span>Get Directions</span>
@@ -430,7 +367,7 @@
     </section>
   </main>
 
-  <!-- 7. Slide-Over Cart Drawer (The Core Requirement Workflow) -->
+  <!-- 7. Slide-Over Cart Drawer (Optimized for Mobile Touch) -->
   <div class="cart-drawer-overlay" id="cart-drawer-overlay" onclick="handleOverlayClick(event)">
     <div class="cart-drawer" id="cart-drawer">
       
@@ -448,16 +385,16 @@
 
       <!-- Items List Container -->
       <div class="cart-items-wrap" id="cart-items-container">
-        <!-- Rendered dynamically -->
+        <!-- Rendered dynamically by app.js -->
       </div>
 
-      <!-- Drawer Footer & WhatsApp Checkout Form -->
+      <!-- Drawer Footer & Simplified WhatsApp Checkout Form -->
       <div class="cart-drawer-footer" id="cart-drawer-footer">
         
-        <!-- Delivery Information Form -->
+        <!-- Simplified Delivery Details -->
         <div class="cart-delivery-form">
-          <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: #475569; margin-bottom: 2px;">
-            Your Delivery Details (Optional)
+          <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #64748B; letter-spacing: 0.04em;">
+            Delivery Details (Optional)
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
@@ -465,7 +402,7 @@
             <input type="tel" id="order-customer-phone" class="cart-input" placeholder="Phone (optional)" />
           </div>
 
-          <input type="text" id="order-customer-address" class="cart-input" placeholder="Delivery Area / Address (e.g. Asalpha, Ghatkopar West)" />
+          <input type="text" id="order-customer-address" class="cart-input" placeholder="Delivery Area / Address in Mumbai" />
 
           <!-- Fulfillment Toggle -->
           <div class="cart-fulfillment-pills">
@@ -478,8 +415,6 @@
               <span>Store Pickup</span>
             </button>
           </div>
-
-          <input type="text" id="order-customer-notes" class="cart-input" placeholder="Any notes (e.g. prescription food, specific time)?" />
         </div>
 
         <!-- Price Summary -->
@@ -498,17 +433,15 @@
           </div>
         </div>
 
-        <!-- Proceed to WhatsApp Button -->
+        <!-- Sticky Proceed to WhatsApp Button -->
         <button type="button" class="btn-proceed-wa" id="btn-proceed-wa" onclick="proceedToWhatsApp()">
-          <i data-lucide="message-circle" style="width: 20px; height: 20px;"></i>
-          <span>Proceed & Send to WhatsApp</span>
+          <i data-lucide="message-circle" style="width: 18px; height: 18px;"></i>
+          <span>Send Order to WhatsApp</span>
         </button>
 
         <div class="cart-reassurance-note">
-          <span style="display: inline-flex; align-items: center; gap: 4px;">
-            <i data-lucide="shield-check" style="width: 13px; height: 13px; color: #16A34A;"></i>
-            <span>Zero online payment. We verify fresh stock and batch dates before confirming your delivery on WhatsApp.</span>
-          </span>
+          <i data-lucide="shield-check" style="width: 12px; height: 12px; color: #16A34A; display: inline-block; vertical-align: middle;"></i>
+          <span>No prepayment required. Stock confirmed before dispatch on WhatsApp.</span>
         </div>
 
       </div>
@@ -516,12 +449,34 @@
     </div>
   </div>
 
-  <!-- 8. Floating Quick Cart Button for Mobile -->
-  <div class="floating-cart-pill" id="floating-cart-pill" onclick="openCart()">
-    <i data-lucide="shopping-bag" style="width: 18px; height: 18px;"></i>
-    <span id="floating-cart-text">Cart: 0 items (₹0)</span>
-    <span style="background: var(--color-wa); color: #0F172A; font-weight: 800; font-size: 11px; padding: 2px 8px; border-radius: 9999px;">View</span>
-  </div>
+  <!-- 8. App-Style Sticky Bottom Navigation Bar (Mobile Only) -->
+  <nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="Mobile Navigation">
+    <a href="#" class="bottom-nav-item active">
+      <i data-lucide="home" class="bottom-nav-icon"></i>
+      <span>Home</span>
+    </a>
+    <a href="#catalog-section" class="bottom-nav-item">
+      <i data-lucide="grid" class="bottom-nav-icon"></i>
+      <span>Products</span>
+    </a>
+    <a href="https://wa.me/919594341999?text=Hi%20Angel%20Pet%20Shop%2C%20I%20want%20to%20order%20pet%20supplies" target="_blank" rel="noopener noreferrer" class="bottom-nav-item bottom-nav-wa">
+      <div class="wa-fab-icon">
+        <i data-lucide="message-circle" style="width: 20px; height: 20px;"></i>
+      </div>
+      <span>WhatsApp</span>
+    </a>
+    <button type="button" class="bottom-nav-item" onclick="openCart()">
+      <div class="bottom-nav-cart-wrap">
+        <i data-lucide="shopping-bag" class="bottom-nav-icon"></i>
+        <span class="cart-badge bottom-cart-badge" id="bottom-cart-badge">0</span>
+      </div>
+      <span>Cart</span>
+    </button>
+    <a href="#visit-section" class="bottom-nav-item">
+      <i data-lucide="map-pin" class="bottom-nav-icon"></i>
+      <span>Visit</span>
+    </a>
+  </nav>
 
   <!-- Global Toast Notice -->
   <div class="toast-msg" id="toast-msg">Item added to requirement cart!</div>
@@ -534,7 +489,7 @@
         <div>
           <div class="footer-brand">Angel Pet Shop</div>
           <p class="footer-desc">
-            Your neighborhood pet supply store in Ghatkopar West, Mumbai. Offering 100% genuine diets, veterinary nutrition, and doorstep delivery across Mumbai.
+            Your neighborhood pet supply store in Ghatkopar West, Mumbai. 100% genuine diets, veterinary nutrition, and doorstep delivery across Mumbai.
           </p>
           <div style="font-size: 13px; color: #0F172A;">
             <strong>Direct Phone:</strong> <a href="tel:+919594341999" style="color: #0284C7; font-weight: 700;">+91 95943 41999</a>
@@ -544,11 +499,11 @@
         <div>
           <div class="footer-col-title">Store Categories</div>
           <ul class="footer-list">
-            <li><a href="#catalog-section" onclick="filterCategory('dog-food')">Dog Food & Diets</a></li>
-            <li><a href="#catalog-section" onclick="filterCategory('cat-food')">Cat Food & Wet Meals</a></li>
-            <li><a href="#catalog-section" onclick="filterCategory('treats')">Treats & Dental Bones</a></li>
+            <li><a href="#catalog-section" onclick="filterCategory('dog-food')">Dog Food &amp; Diets</a></li>
+            <li><a href="#catalog-section" onclick="filterCategory('cat-food')">Cat Food &amp; Wet Meals</a></li>
+            <li><a href="#catalog-section" onclick="filterCategory('treats')">Treats &amp; Dental Bones</a></li>
             <li><a href="#catalog-section" onclick="filterCategory('grooming')">Bentonite Cat Litter</a></li>
-            <li><a href="#catalog-section" onclick="filterCategory('health')">Supplements & Tonic</a></li>
+            <li><a href="#catalog-section" onclick="filterCategory('health')">Supplements &amp; Tonic</a></li>
           </ul>
         </div>
 
@@ -556,15 +511,15 @@
           <div class="footer-col-title">Stocked Brands</div>
           <ul class="footer-list">
             <li><a href="#catalog-section">Royal Canin</a></li>
-            <li><a href="#catalog-section">Farmina N&D</a></li>
-            <li><a href="#catalog-section">Drools & Drools Focus</a></li>
-            <li><a href="#catalog-section">Whiskas & Sheba</a></li>
+            <li><a href="#catalog-section">Farmina N&amp;D</a></li>
+            <li><a href="#catalog-section">Drools &amp; Drools Focus</a></li>
+            <li><a href="#catalog-section">Whiskas &amp; Sheba</a></li>
             <li><a href="#catalog-section">Pedigree PRO</a></li>
           </ul>
         </div>
 
         <div>
-          <div class="footer-col-title">Store Hours & Location</div>
+          <div class="footer-col-title">Store Hours &amp; Location</div>
           <p style="font-size: 13px; line-height: 1.6; margin-bottom: 10px; color: #0F172A;">
             <strong>Open Every Day:</strong><br>
             10:00 AM – 10:30 PM (Mon – Sun)
